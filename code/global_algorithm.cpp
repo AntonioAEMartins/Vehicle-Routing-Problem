@@ -3,6 +3,8 @@
 #include <sstream>
 #include <map>
 #include <vector>
+#include <set>
+#include <climits>
 
 using namespace std;
 
@@ -47,7 +49,6 @@ vector<vector<int>> generatePermutations(const map<int, int> &locations)
     vector<vector<int>> permutations;
     vector<int> indexes;
 
-    // Extrair as chaves do mapa e armazenar no vetor indexes
     for (const auto &pair : locations)
     {
         indexes.push_back(pair.first);
@@ -71,7 +72,6 @@ vector<vector<int>> generatePermutations(const map<int, int> &locations)
 
 vector<vector<int>> generatePossiblePaths(vector<vector<int>> permutations, map<pair<int, int>, int> distances, map<int, int> &nodes, int maxCapacity)
 {
-    cout << "Max Capacity: " << maxCapacity << endl;
     vector<vector<int>> possiblePaths;
     int numPermutations = permutations.size();
     bool isPathPossible = true;
@@ -88,57 +88,44 @@ vector<vector<int>> generatePossiblePaths(vector<vector<int>> permutations, map<
 
         int permutationSize = permutations[i].size();
 
-        for (int j = 0; j < permutationSize; ++j)
+        for (int j = 0; j < permutationSize - 1; ++j)
         {
             int from = permutations[i][j];
-
-            if (j + 1 >= permutationSize)
-            {
-                path.push_back(from);
-                capacity = 0;
-                break;
-            }
-
             int to = permutations[i][j + 1];
+            int nextNodeCapacity = nodes.at(to);
+
             auto it = distances.find({from, to});
 
-            if (it == distances.end())
+            if (it != distances.end() && capacity + nextNodeCapacity <= maxCapacity)
             {
                 path.push_back(from);
-                path.push_back(0);
-                capacity = nodes.at(to);
-                // cout << "Capacidade: " << capacity << " Node Cap: " << nodes.at(to) << " | " << from << " -> " << to << endl;
+                capacity += nextNodeCapacity;
             }
             else
             {
                 path.push_back(from);
-                capacity += nodes.at(to);
-            }
-
-            if (capacity > maxCapacity)
-            {
-                isPathPossible = false;
-                break;
+                if (from != 0)
+                {
+                    path.push_back(0);
+                }
+                capacity = nextNodeCapacity;
             }
         }
-        // cout << "Outra Permutação" << endl;
 
-        if (path[path.size() - 1] != 0)
+        path.push_back(permutations[i].back());
+
+        if (path.back() != 0)
         {
             path.push_back(0);
         }
 
-        if (isPathPossible)
-        {
-            cout << "Path Possible" << endl;
-            possiblePaths.push_back(path);
-        }
+        possiblePaths.push_back(path);
     }
 
     return possiblePaths;
 }
 
-vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances)
+vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
     int minCost = INT_MAX;
@@ -160,10 +147,78 @@ vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, 
             bestPath = possiblePaths[i];
         }
     }
-
-    cout << "Best Cost: " << minCost << endl;
-
+    cost = minCost;
     return bestPath;
+}
+
+int findClosestNode(int node, set<int> &unvisitedNodes, map<int, int> &nodes, map<pair<int, int>, int> &distances)
+{
+    int closestNode = -1;
+    int minDistance = INT_MAX;
+
+    for (int candidate : unvisitedNodes)
+    {
+        if (candidate != node)
+        {
+            auto it = distances.find({node, candidate});
+            if (it != distances.end() && it->second < minDistance)
+            {
+                minDistance = it->second;
+                closestNode = candidate;
+            }
+        }
+    }
+
+    return closestNode;
+}
+
+vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity)
+{
+    vector<int> path;
+    cost = 0;         // Inicializa o custo total
+    int capacity = 0; // Capacidade atual
+    int current = 0;  // Começa no depósito
+    path.push_back(current);
+
+    // Conjunto de nós não visitados
+    set<int> unvisitedNodes;
+    for (const auto &node : nodes)
+    {
+        if (node.first != 0) // Exclui o depósito
+        {
+            unvisitedNodes.insert(node.first);
+        }
+    }
+
+    while (!unvisitedNodes.empty())
+    {
+        int nearestNode = findClosestNode(current, unvisitedNodes, nodes, distances);
+
+        if (nearestNode != -1 && capacity + nodes.at(nearestNode) <= maxCapacity)
+        {
+            path.push_back(nearestNode);
+            cost += distances.at({current, nearestNode});
+            capacity += nodes.at(nearestNode);
+            current = nearestNode;
+            unvisitedNodes.erase(nearestNode);
+        }
+        else
+        {
+            path.push_back(0); // Retorna ao depósito
+            cost += distances.at({current, 0});
+            current = 0;
+            capacity = 0;
+        }
+    }
+
+    // Retorna ao depósito no final
+    if (current != 0)
+    {
+        path.push_back(0);
+        cost += distances.at({current, 0});
+    }
+
+    return path;
 }
 
 void printPermutations(vector<vector<int>> permutations)
@@ -195,31 +250,48 @@ void printPaths(vector<vector<int>> possiblePaths)
 
 int main()
 {
-    // Adicionar Capacidade do Veículo
+    int maxCapacity = 10;
     map<int, int> nodes;
     map<pair<int, int>, int> distances;
     load_graph("../grafo.txt", nodes, distances);
 
-    for (const auto &edge : distances)
-    {
-        cout << edge.first.first << " -> " << edge.first.second << ": " << edge.second << endl;
-    }
+    cout << "Graph loaded" << endl;
+
+    // for (const auto &edge : distances)
+    // {
+    //     cout << edge.first.first << " -> " << edge.first.second << ": " << edge.second << endl;
+    // }
 
     vector<vector<int>> permutations = generatePermutations(nodes);
 
-    vector<vector<int>> possiblePaths = generatePossiblePaths(permutations, distances, nodes, 11);
+    cout << "Permutations generated" << endl;
 
-    vector<int> bestPath = findBestPath(possiblePaths, distances);
+    vector<vector<int>> possiblePaths = generatePossiblePaths(permutations, distances, nodes, maxCapacity);
 
-    cout << "Best Path:" << endl;
+    cout << "Possible Paths generated" << endl;
+
+    int cost = 0;
+    vector<int> bestPath = findBestPath(possiblePaths, distances, cost);
+
+    cout << "Best Path is: ";
 
     for (int i : bestPath)
     {
         cout << i << " ";
     }
 
+    cout << "with cost: " << cost << endl;
+
+    vector<int> aprox = nearestNeighborSearch(distances, nodes, cost, maxCapacity);
+
+    cout << "Aprox Path is: ";
+
+    for (int i : aprox)
+    {
+        cout << i << " ";
+    }
+
+    cout << "with cost: " << cost << endl;
+
     return 0;
 }
-
-// 40 + 40 + 37 + 70 + 64 + 46 + 46 + 46 = 389
-// 35 + 64 + 46 + 37 + 37 + 46 + 46 + 40 + 40 = 391
