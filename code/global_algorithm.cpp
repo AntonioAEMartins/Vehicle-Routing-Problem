@@ -5,8 +5,10 @@
 #include <vector>
 #include <set>
 #include <climits>
+#include <omp.h>
 
 using namespace std;
+using namespace std::chrono;
 
 void load_graph(const string &filename, map<int, int> &nodes, map<pair<int, int>, int> &distances)
 {
@@ -70,6 +72,68 @@ vector<vector<int>> generatePermutations(const map<int, int> &locations)
     return permutations;
 }
 
+vector<vector<int>> generatePermutationsParallel(const map<int, int> &locations)
+{
+    vector<vector<int>> permutations;
+    vector<int> indexes;
+
+    for (const auto &pair : locations)
+    {
+        indexes.push_back(pair.first);
+    }
+
+    int n = indexes.size();
+    int num_permutations = 1;
+    for (int i = 1; i <= n; ++i)
+    {
+        num_permutations *= i;
+    }
+
+    permutations.resize(num_permutations);
+
+#pragma omp parallel for
+    for (int i = 0; i < num_permutations; ++i)
+    {
+        vector<int> local_indexes = indexes;
+        for (int j = 0; j < i; ++j)
+        {
+            next_permutation(local_indexes.begin(), local_indexes.end());
+        }
+        permutations[i] = local_indexes;
+    }
+
+    return permutations;
+}
+
+vector<vector<int>> generatePermutationsParallelOptimized(const map<int, int> &locations)
+{
+    vector<vector<int>> permutations;
+    vector<int> indexes;
+
+    for (const auto &pair : locations)
+    {
+        indexes.push_back(pair.first);
+    }
+
+    sort(indexes.begin(), indexes.end());
+
+    do
+    {
+        permutations.push_back(indexes);
+    } while (next_permutation(indexes.begin(), indexes.end()));
+
+    int num_permutations = permutations.size();
+    vector<vector<int>> parallel_permutations(num_permutations);
+
+#pragma omp parallel for
+    for (int i = 0; i < num_permutations; ++i)
+    {
+        parallel_permutations[i] = permutations[i];
+    }
+
+    return parallel_permutations;
+}
+
 vector<vector<int>> generatePossiblePaths(vector<vector<int>> permutations, map<pair<int, int>, int> distances, map<int, int> &nodes, int maxCapacity)
 {
     vector<vector<int>> possiblePaths;
@@ -125,12 +189,99 @@ vector<vector<int>> generatePossiblePaths(vector<vector<int>> permutations, map<
     return possiblePaths;
 }
 
+vector<vector<int>> generatePossiblePathsParallel(const vector<vector<int>> &permutations, const map<pair<int, int>, int> &distances, const map<int, int> &nodes, int maxCapacity)
+{
+    vector<vector<int>> possiblePaths;
+    int numPermutations = permutations.size();
+
+    // Redimensiona o vetor de caminhos possíveis para que possa ser acessado em paralelo
+    possiblePaths.resize(numPermutations);
+
+    // Parallelize the loop with OpenMP
+    #pragma omp parallel for
+    for (int i = 0; i < numPermutations; ++i)
+    {
+        vector<int> path;
+        int capacity = 0;
+
+        vector<int> perm = permutations[i];
+
+        if (perm[0] != 0)
+        {
+            perm.insert(perm.begin(), 0);
+        }
+
+        int permutationSize = perm.size();
+
+        for (int j = 0; j < permutationSize - 1; ++j)
+        {
+            int from = perm[j];
+            int to = perm[j + 1];
+            int nextNodeCapacity = nodes.at(to);
+
+            auto it = distances.find({from, to});
+
+            if (it != distances.end() && capacity + nextNodeCapacity <= maxCapacity)
+            {
+                path.push_back(from);
+                capacity += nextNodeCapacity;
+            }
+            else
+            {
+                path.push_back(from);
+                if (from != 0)
+                {
+                    path.push_back(0);
+                }
+                capacity = nextNodeCapacity;
+            }
+        }
+
+        path.push_back(perm.back());
+
+        if (path.back() != 0)
+        {
+            path.push_back(0);
+        }
+
+        possiblePaths[i] = path;
+    }
+
+    return possiblePaths;
+}
+
 vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
     int minCost = INT_MAX;
     int numPossiblePaths = possiblePaths.size();
 
+    for (int i = 0; i < possiblePaths.size(); i++)
+    {
+        int pathCost = 0;
+        for (int j = 0; j < possiblePaths[i].size() - 1; j++)
+        {
+            int from = possiblePaths[i][j];
+            int to = possiblePaths[i][j + 1];
+            int cost = distances.at({from, to});
+            pathCost += cost;
+        }
+        if (pathCost < minCost)
+        {
+            minCost = pathCost;
+            bestPath = possiblePaths[i];
+        }
+    }
+    cost = minCost;
+    return bestPath;
+}
+
+vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
+{
+    vector<int> bestPath;
+    int minCost = INT_MAX;
+
+#pragma omp parallel for
     for (int i = 0; i < possiblePaths.size(); i++)
     {
         int pathCost = 0;
@@ -257,40 +408,51 @@ int main()
 
     cout << "Graph loaded" << endl;
 
-    // for (const auto &edge : distances)
-    // {
-    //     cout << edge.first.first << " -> " << edge.first.second << ": " << edge.second << endl;
-    // }
-
+    auto start = high_resolution_clock::now();
     vector<vector<int>> permutations = generatePermutations(nodes);
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(stop - start);
+    cout << "Permutations generated in " << duration.count() << " milliseconds" << endl;
 
-    cout << "Permutations generated" << endl;
+    start = high_resolution_clock::now();
+    vector<vector<int>> permutationsParallel = generatePermutationsParallelOptimized(nodes);
+    stop = high_resolution_clock::now();
+    duration = duration_cast<milliseconds>(stop - start);
+    cout << "Parallel Permutations generated in " << duration.count() << " milliseconds" << endl;
 
+    start = high_resolution_clock::now();
     vector<vector<int>> possiblePaths = generatePossiblePaths(permutations, distances, nodes, maxCapacity);
+    stop = high_resolution_clock::now();
+    duration = duration_cast<milliseconds>(stop - start);
+    cout << "Possible Paths in " << duration.count() << " milliseconds" << endl;
 
-    cout << "Possible Paths generated" << endl;
+    start = high_resolution_clock::now();
+    vector<vector<int>> possiblePathsParallel = generatePossiblePathsParallel(permutations, distances, nodes, maxCapacity);
+    stop = high_resolution_clock::now();
+    duration = duration_cast<milliseconds>(stop - start);
+    cout << "Parallel Possible Paths generated in " << duration.count() << " milliseconds" << endl;
 
     int cost = 0;
+    start = high_resolution_clock::now();
     vector<int> bestPath = findBestPath(possiblePaths, distances, cost);
+    stop = high_resolution_clock::now();
+    duration = duration_cast<milliseconds>(stop - start);
+    cout << "Best Path in " << duration.count() << " milliseconds" << endl;
 
-    cout << "Best Path is: ";
-
-    for (int i : bestPath)
-    {
-        cout << i << " ";
-    }
-
-    cout << "with cost: " << cost << endl;
+    cost = 0;
+    start = high_resolution_clock::now();
+    vector<int> bestPathParalles = findBestPathParallel(possiblePaths, distances, cost);
+    stop = high_resolution_clock::now();
+    duration = duration_cast<milliseconds>(stop - start);
+    cout << "Best Path Parallel in  " << duration.count() << " milliseconds" << endl;
 
     vector<int> aprox = nearestNeighborSearch(distances, nodes, cost, maxCapacity);
 
     cout << "Aprox Path is: ";
-
     for (int i : aprox)
     {
         cout << i << " ";
     }
-
     cout << "with cost: " << cost << endl;
 
     return 0;
