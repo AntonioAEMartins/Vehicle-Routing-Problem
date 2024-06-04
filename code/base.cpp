@@ -1,6 +1,7 @@
 #include "base.h"
 #include <sstream>
 #include <algorithm>
+#include <climits>
 #include <omp.h>
 
 void load_graph(const std::string &filename, std::map<int, int> &nodes, std::map<std::pair<int, int>, int> &distances)
