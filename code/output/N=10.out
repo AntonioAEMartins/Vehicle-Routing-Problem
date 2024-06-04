@@ -1,0 +1,16 @@
+Permutations (S) 591 milli.
+Permutations (P) 874 milli.
+Paths (S) 8037 milli.
+Paths (P) 6779 milli.
+Best Path (S) 4235 milli.
+Best Path (P)  3547 milli.
+Best Path (MPI)  1295 milli.
+Nearest Neighbor (S) 0 milli.
+Nearest Neighbor (P) 80 milli.
+Nearest Neighbor (MPI) 10 milli.
+Global (S): 0 1 0 2 0 3 0 4 0 5 8 0 6 7 0 9 0  with cost: 846
+Global (P): 0 1 0 2 0 3 0 4 0 5 8 0 6 7 0 9 0  with cost: 846
+Global (MPI): 0 1 0 2 0 3 0 4 0 5 8 0 6 7 0 9 0  with cost: 846
+Nearest Neighbor (S): 0 9 0 3 0 2 0 7 0 8 0 1 0 5 0 4 0 6 0  with cost: 1012
+Nearest Neighbor (P): 0 9 0 3 0 2 0 7 0 1 0 8 0 5 0 4 0 6 0  with cost: 1012
+Nearest Neighbor (MPI): 0 36 0 12 0 8 0 28 0 4 0 32 0 20 0 16 0 24 0  with cost: 1012
