@@ -11,6 +11,17 @@
 using namespace std;
 using namespace std::chrono;
 
+/**
+ * @brief Finds the best path with the minimum cost from a set of possible paths.
+ * 
+ * This function iterates through all possible paths and calculates their respective costs
+ * using the provided distances. It then selects the path with the minimum cost.
+ * 
+ * @param possiblePaths A vector of vectors where each inner vector represents a possible path as a sequence of nodes.
+ * @param distances A map that holds the distances between pairs of nodes.
+ * @param cost A reference to an integer where the cost of the best path will be stored.
+ * @return A vector of integers representing the nodes in the best path with the minimum cost.
+ */
 vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
@@ -37,6 +48,17 @@ vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, 
     return bestPath;
 }
 
+/**
+ * @brief Finds the best path with the minimum cost from a set of possible paths using parallel processing.
+ * 
+ * This function parallelizes the search for the best path using OpenMP, allowing for the evaluation of multiple paths concurrently.
+ * It calculates the cost of each path and selects the path with the minimum cost.
+ * 
+ * @param possiblePaths A vector of vectors where each inner vector represents a possible path as a sequence of nodes.
+ * @param distances A map that holds the distances between pairs of nodes.
+ * @param cost A reference to an integer where the cost of the best path will be stored.
+ * @return A vector of integers representing the nodes in the best path with the minimum cost.
+ */
 vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
@@ -63,6 +85,18 @@ vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int
     return bestPath;
 }
 
+/**
+ * @brief Performs a Nearest Neighbor search for the Traveling Salesman Problem (TSP).
+ * 
+ * This function constructs a path by visiting the nearest unvisited node and returns to the starting node when necessary,
+ * considering the capacity constraints of the nodes.
+ * 
+ * @param distances A map where keys are pairs of node indices representing edges and values are the corresponding distances.
+ * @param nodes A map where keys are node indices and values are the capacities of the nodes.
+ * @param cost An integer reference that will be set to the total cost of the path found.
+ * @param maxCapacity The maximum capacity constraint for the nodes in the path.
+ * @return A vector of integers representing the path starting and ending at node 0.
+ */
 vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity)
 {
     vector<int> path;
@@ -111,6 +145,18 @@ vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, 
     return path;
 }
 
+/**
+ * @brief Performs a parallelized Nearest Neighbor search for the Traveling Salesman Problem (TSP).
+ * 
+ * This function parallelizes the Nearest Neighbor search using OpenMP to potentially speed up the computation.
+ * The parallelization focuses on finding the nearest node in parallel.
+ * 
+ * @param distances A map where keys are pairs of node indices representing edges and values are the corresponding distances.
+ * @param nodes A map where keys are node indices and values are the capacities of the nodes.
+ * @param cost An integer reference that will be set to the total cost of the path found.
+ * @param maxCapacity The maximum capacity constraint for the nodes in the path.
+ * @return A vector of integers representing the path starting and ending at node 0.
+ */
 vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity)
 {
     vector<int> path;
@@ -179,6 +225,15 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
     return path;
 }
 
+/**
+ * @brief Main function that executes various algorithms and measures their performance.
+ * 
+ * This function loads graph data from a file, generates permutations and possible paths, and performs both serial and parallel
+ * algorithms for finding the best path and Nearest Neighbor search. It measures and prints the execution times for different
+ * stages of the algorithm.
+ * 
+ * @return An integer indicating the exit status of the program.
+ */
 int main()
 {
     int maxCapacity = 10;

@@ -13,6 +13,18 @@
 using namespace std;
 using namespace std::chrono;
 
+/**
+ * @brief Finds the best path with the minimum cost from a set of possible paths.
+ *
+ * This function iterates through all possible paths and calculates their respective costs
+ * using the provided distances. It then selects the path with the minimum cost.
+ *
+ * @param possiblePaths A vector of vectors where each inner vector represents a possible path as a sequence of nodes.
+ * @param distances A map that holds the distances between pairs of nodes.
+ * @param cost A reference to an integer where the cost of the best path will be stored.
+ * @return A vector of integers representing the nodes in the best path with the minimum cost.
+ */
+
 vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
@@ -39,6 +51,18 @@ vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, 
     return bestPath;
 }
 
+/**
+ * @brief Finds the best path with the minimum cost from a set of possible paths using parallel processing.
+ *
+ * This function performs a parallel search to find the path with the minimum cost from a set of possible paths.
+ * The distances are used to calculate the cost of each path in parallel.
+ *
+ * @param possiblePaths A vector of vectors where each inner vector represents a possible path as a sequence of nodes.
+ * @param distances A map that holds the distances between pairs of nodes.
+ * @param cost A reference to an integer where the cost of the best path will be stored.
+ * @return A vector of integers representing the nodes in the best path with the minimum cost.
+ */
+
 vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
@@ -64,6 +88,20 @@ vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int
     cost = minCost;
     return bestPath;
 }
+
+/**
+ * @brief Finds the best path with the minimum cost from a set of possible paths using parallel processing with MPI.
+ *
+ * This function performs a parallel search to find the path with the minimum cost using MPI for distributed computing.
+ * The distances are used to calculate the cost of each path in parallel across different MPI processes.
+ *
+ * @param possiblePaths A vector of vectors where each inner vector represents a possible path as a sequence of nodes.
+ * @param distances A map that holds the distances between pairs of nodes.
+ * @param cost A reference to an integer where the cost of the best path will be stored.
+ * @param rank The rank of the current MPI process.
+ * @param size The total number of MPI processes.
+ * @return A vector of integers representing the nodes in the best path with the minimum cost.
+ */
 
 vector<int> findBestPathParallelMPI(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost, int rank, int size)
 {
@@ -130,6 +168,19 @@ vector<int> findBestPathParallelMPI(vector<vector<int>> possiblePaths, map<pair<
     return bestPath;
 }
 
+/**
+ * @brief Finds a path using the nearest neighbor heuristic.
+ *
+ * This function finds a path starting from the initial node and repeatedly visits the nearest unvisited node
+ * until all nodes are visited. It then returns to the starting node. The cost is calculated based on the distances.
+ *
+ * @param distances A map that holds the distances between pairs of nodes.
+ * @param nodes A map of nodes with their capacities.
+ * @param cost A reference to an integer where the cost of the path will be stored.
+ * @param maxCapacity The maximum capacity allowed for the path.
+ * @return A vector of integers representing the nodes in the path found using the nearest neighbor heuristic.
+ */
+
 vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity)
 {
     vector<int> path;
@@ -177,6 +228,19 @@ vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, 
 
     return path;
 }
+
+/**
+ * @brief Finds a path using the nearest neighbor heuristic with parallel processing.
+ *
+ * This function performs a parallel search using the nearest neighbor heuristic. It finds the nearest unvisited node
+ * in parallel and updates the path and cost accordingly.
+ *
+ * @param distances A map that holds the distances between pairs of nodes.
+ * @param nodes A map of nodes with their capacities.
+ * @param cost A reference to an integer where the cost of the path will be stored.
+ * @param maxCapacity The maximum capacity allowed for the path.
+ * @return A vector of integers representing the nodes in the path found using the nearest neighbor heuristic in parallel.
+ */
 
 vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity)
 {
@@ -245,6 +309,21 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
 
     return path;
 }
+
+/**
+ * @brief Finds a path using the nearest neighbor heuristic with parallel processing and MPI.
+ *
+ * This function performs a parallel search using both OpenMP and MPI to find a path based on the nearest neighbor heuristic.
+ * It distributes the search process across multiple MPI processes and uses OpenMP to parallelize within each process.
+ *
+ * @param distances A map that holds the distances between pairs of nodes.
+ * @param nodes A map of nodes with their capacities.
+ * @param cost A reference to an integer where the cost of the path will be stored.
+ * @param maxCapacity The maximum capacity allowed for the path.
+ * @param rank The rank of the current MPI process.
+ * @param size The total number of MPI processes.
+ * @return A vector of integers representing the nodes in the path found using the nearest neighbor heuristic with MPI.
+ */
 
 vector<int> nearestNeighborSearchParallelMPI(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity, int rank, int size)
 {
@@ -316,6 +395,17 @@ vector<int> nearestNeighborSearchParallelMPI(map<pair<int, int>, int> &distances
 
     return globalPath;
 }
+
+/**
+ * @brief Main function to execute the pathfinding algorithms.
+ *
+ * This function initializes MPI, loads the graph data, and executes various pathfinding algorithms including
+ * sequential, parallel, and MPI-based approaches. It measures and prints the execution time for each algorithm.
+ *
+ * @param argc The number of command-line arguments.
+ * @param argv The array of command-line arguments.
+ * @return Returns 0 upon successful execution.
+ */
 
 int main(int argc, char **argv)
 {
