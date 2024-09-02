@@ -1,0 +1,68 @@
+# Doxygen output directory
+/docs/
+
+# Doxygen configuration files
+*.dox
+*.doxygen
+
+# Build directories (if any, for example, if you're using CMake or another build system)
+build/
+CMakeFiles/
+CMakeCache.txt
+*.cmake
+
+# Object files and binaries
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+
+# Executable files
+*.exe
+*.out
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.log
+
+# IDE specific files (e.g., Visual Studio, Eclipse, etc.)
+.vscode/
+*.suo
+*.user
+*.ncb
+*.sdf
+*.opensdf
+*.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*~
+*.bak
+
+# Archive files
+*.zip
+*.tar.gz
+*.7z
+*.rar
+
+# Doxygen intermediate files
+*.idx
+*.ilg
+*.log
+*.pdf
+*.html
+*.xml
+
+# Configuration and environment files
+*.env
+*.config
+
+*.DS_Store
