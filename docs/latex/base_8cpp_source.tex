@@ -1,0 +1,317 @@
+\doxysection{base.\+cpp}
+\hypertarget{base_8cpp_source}{}\label{base_8cpp_source}\mbox{\hyperlink{base_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{base_8h}{base.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <climits>}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <omp.h>}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00019}\mbox{\hyperlink{base_8cpp_a2624bf9ab2b21423b2db2552184d5b28}{00019}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{base_8cpp_a2624bf9ab2b21423b2db2552184d5b28}{load\_graph}}(\textcolor{keyword}{const}\ std::string\ \&filename,\ std::map<int,\ int>\ \&nodes,\ std::map<std::pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00020}00020\ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00021}00021\ \ \ \ \ std::ifstream\ infile(filename);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{if}\ (!infile)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00023}00023\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}Erro\ ao\ abrir\ o\ arquivo"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00026}00026\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00028}00028\ \ \ \ \ \textcolor{keywordtype}{int}\ num\_nodes;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00029}00029\ \ \ \ \ infile\ >>\ num\_nodes;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00031}00031\ \ \ \ \ nodes.clear();}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00032}00032\ \ \ \ \ nodes[0]\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00034}00034\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 1;\ i\ <\ num\_nodes;\ ++i)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00035}00035\ \ \ \ \ \{\ \textcolor{comment}{//\ Start\ from\ 1\ because\ the\ first\ node\ is\ the\ origin}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ id,\ pedido;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00037}00037\ \ \ \ \ \ \ \ \ infile\ >>\ \textcolor{keywordtype}{id}\ >>\ pedido;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ nodes[id]\ =\ pedido;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00039}00039\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordtype}{int}\ num\_edges;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00042}00042\ \ \ \ \ infile\ >>\ num\_edges;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00044}00044\ \ \ \ \ distances.clear();}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00045}00045\ \ \ \ \ \textcolor{keywordtype}{int}\ node1,\ node2,\ distance;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00046}00046\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ num\_edges;\ ++i)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00047}00047\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ infile\ >>\ node1\ >>\ node2\ >>\ distance;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ distances[\{node1,\ node2\}]\ =\ distance;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00050}00050\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00052}00052\ \ \ \ \ infile.close();}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00053}00053\ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00065}\mbox{\hyperlink{base_8cpp_a7cbb4c4226abd328bc58494db7cd0fb4}{00065}}\ std::vector<std::vector<int>>\ \mbox{\hyperlink{base_8cpp_a7cbb4c4226abd328bc58494db7cd0fb4}{generatePermutations}}(\textcolor{keyword}{const}\ std::map<int,\ int>\ \&locations)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00066}00066\ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00067}00067\ \ \ \ \ std::vector<std::vector<int>>\ permutations;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00068}00068\ \ \ \ \ std::vector<int>\ indexes;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00070}00070\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&pair\ :\ locations)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00071}00071\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ indexes.push\_back(pair.first);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00073}00073\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00075}00075\ \ \ \ \ \textcolor{keywordtype}{int}\ n\ =\ indexes.size();}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00076}00076\ \ \ \ \ \textcolor{keywordtype}{int}\ num\_permutations\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00077}00077\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 1;\ i\ <=\ n;\ ++i)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00078}00078\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ num\_permutations\ *=\ i;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00080}00080\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00082}00082\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ num\_permutations;\ ++i)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00083}00083\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ permutations.push\_back(indexes);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ std::next\_permutation(indexes.begin(),\ indexes.end());}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00086}00086\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{keywordflow}{return}\ permutations;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00089}00089\ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00101}\mbox{\hyperlink{base_8cpp_a333de721d98fe25d170207ab7dcefcb9}{00101}}\ std::vector<std::vector<int>>\ \mbox{\hyperlink{base_8cpp_a333de721d98fe25d170207ab7dcefcb9}{generatePermutationsParallel}}(\textcolor{keyword}{const}\ std::map<int,\ int>\ \&locations)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00102}00102\ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00103}00103\ \ \ \ \ std::vector<std::vector<int>>\ permutations;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00104}00104\ \ \ \ \ std::vector<int>\ indexes;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00106}00106\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&pair\ :\ locations)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00107}00107\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ indexes.push\_back(pair.first);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00109}00109\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00111}00111\ \ \ \ \ \textcolor{keywordtype}{int}\ n\ =\ indexes.size();}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00112}00112\ \ \ \ \ \textcolor{keywordtype}{int}\ num\_permutations\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00113}00113\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 1;\ i\ <=\ n;\ ++i)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00114}00114\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ num\_permutations\ *=\ i;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00116}00116\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00118}00118\ \ \ \ \ permutations.resize(num\_permutations);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00120}00120\ \textcolor{preprocessor}{\#pragma\ omp\ parallel\ for}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00121}00121\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ num\_permutations;\ ++i)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00122}00122\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ std::vector<int>\ local\_indexes\ =\ indexes;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ i;\ ++j)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ std::next\_permutation(local\_indexes.begin(),\ local\_indexes.end());}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ permutations[i]\ =\ local\_indexes;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00129}00129\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00131}00131\ \ \ \ \ \textcolor{keywordflow}{return}\ permutations;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00132}00132\ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00144}\mbox{\hyperlink{base_8cpp_ae74b6609b234c3d17058915b8027e4e4}{00144}}\ std::vector<std::vector<int>>\ \mbox{\hyperlink{base_8cpp_ae74b6609b234c3d17058915b8027e4e4}{generatePermutationsParallelOptimized}}(\textcolor{keyword}{const}\ std::map<int,\ int>\ \&locations)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00145}00145\ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00146}00146\ \ \ \ \ std::vector<std::vector<int>>\ permutations;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00147}00147\ \ \ \ \ std::vector<int>\ indexes;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00149}00149\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&pair\ :\ locations)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00150}00150\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ indexes.push\_back(pair.first);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00152}00152\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00154}00154\ \ \ \ \ std::sort(indexes.begin(),\ indexes.end());}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00156}00156\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00157}00157\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ permutations.push\_back(indexes);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00159}00159\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (std::next\_permutation(indexes.begin(),\ indexes.end()));}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00161}00161\ \ \ \ \ \textcolor{keywordtype}{int}\ num\_permutations\ =\ permutations.size();}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00162}00162\ \ \ \ \ std::vector<std::vector<int>>\ parallel\_permutations(num\_permutations);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00164}00164\ \textcolor{preprocessor}{\#pragma\ omp\ parallel\ for}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00165}00165\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ num\_permutations;\ ++i)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00166}00166\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ parallel\_permutations[i]\ =\ permutations[i];}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00168}00168\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00170}00170\ \ \ \ \ \textcolor{keywordflow}{return}\ parallel\_permutations;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00171}00171\ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00181}\mbox{\hyperlink{base_8cpp_a3a931a003fc5d54216cb1f8e2e18e62e}{00181}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{base_8cpp_a3a931a003fc5d54216cb1f8e2e18e62e}{printPermutations}}(\textcolor{keyword}{const}\ std::vector<std::vector<int>>\ \&permutations)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00182}00182\ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00183}00183\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Permutações:"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00185}00185\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&permutation\ :\ permutations)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00186}00186\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ node\ :\ permutation)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ node\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ std::cout\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00192}00192\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00193}00193\ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00203}\mbox{\hyperlink{base_8cpp_aea961002f2293e9dd0e3e50198c2bf0d}{00203}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{base_8cpp_aea961002f2293e9dd0e3e50198c2bf0d}{printPaths}}(\textcolor{keyword}{const}\ std::vector<std::vector<int>>\ \&possiblePaths)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00204}00204\ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00205}00205\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Caminhos\ possíveis:"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00206}00206\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&path\ :\ possiblePaths)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00207}00207\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ distance\ :\ path)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ distance\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ std::cout\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00213}00213\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00214}00214\ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00226}\mbox{\hyperlink{base_8cpp_ab458f83824d90685efa283d2989d120e}{00226}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{base_8cpp_ab458f83824d90685efa283d2989d120e}{printPath}}(\textcolor{keyword}{const}\ std::vector<int>\ \&path,\ \textcolor{keyword}{const}\ std::string\ \&text,\ \textcolor{keywordtype}{int}\ cost)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00227}00227\ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00228}00228\ \ \ \ \ std::cout\ <<\ text\ <<\ \textcolor{stringliteral}{"{}:\ "{}};}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00229}00229\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ node\ :\ path)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00230}00230\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00231}00231\ \ \ \ \ \ \ \ \ std::cout\ <<\ node\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00232}00232\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00233}00233\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\ with\ cost:\ "{}}\ <<\ cost\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00234}00234\ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00249}\mbox{\hyperlink{base_8cpp_a84b1c6dd6025339ba8efaef58aced818}{00249}}\ std::vector<std::vector<int>>\ \mbox{\hyperlink{base_8cpp_a84b1c6dd6025339ba8efaef58aced818}{generatePossiblePaths}}(std::vector<std::vector<int>>\ permutations,\ \textcolor{keyword}{const}\ std::map<std::pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ \textcolor{keyword}{const}\ std::map<int,\ int>\ \&nodes,\ \textcolor{keywordtype}{int}\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00250}00250\ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00251}00251\ \ \ \ \ std::vector<std::vector<int>>\ possiblePaths;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00252}00252\ \ \ \ \ \textcolor{keywordtype}{int}\ numPermutations\ =\ permutations.size();}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00254}00254\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ numPermutations;\ ++i)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00255}00255\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ std::vector<int>\ path;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ capacity\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (permutations[i][0]\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00260}00260\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ permutations[i].insert(permutations[i].begin(),\ 0);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00262}00262\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ permutationSize\ =\ permutations[i].size();}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ permutationSize\ -\/\ 1;\ ++j)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00267}00267\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ from\ =\ permutations[i][j];}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ to\ =\ permutations[i][j\ +\ 1];}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ nextNodeCapacity\ =\ nodes.at(to);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ distances.find(\{from,\ to\});}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ distances.end()\ \&\&\ capacity\ +\ nextNodeCapacity\ <=\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(from);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ +=\ nextNodeCapacity;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(from);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (from\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ =\ nextNodeCapacity;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ path.push\_back(permutations[i].back());}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (path.back()\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00295}00295\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ possiblePaths.push\_back(path);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00298}00298\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00300}00300\ \ \ \ \ \textcolor{keywordflow}{return}\ possiblePaths;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00301}00301\ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00302}00302\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00316}\mbox{\hyperlink{base_8cpp_a5296eb2e4a780a71e9c97b34356ac247}{00316}}\ std::vector<std::vector<int>>\ \mbox{\hyperlink{base_8cpp_a5296eb2e4a780a71e9c97b34356ac247}{generatePossiblePathsParallel}}(\textcolor{keyword}{const}\ std::vector<std::vector<int>>\ \&permutations,\ \textcolor{keyword}{const}\ std::map<std::pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ \textcolor{keyword}{const}\ std::map<int,\ int>\ \&nodes,\ \textcolor{keywordtype}{int}\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00317}00317\ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00318}00318\ \ \ \ \ std::vector<std::vector<int>>\ possiblePaths;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00319}00319\ \ \ \ \ \textcolor{keywordtype}{int}\ numPermutations\ =\ permutations.size();}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00321}00321\ \ \ \ \ \textcolor{comment}{//\ Redimensiona\ o\ vetor\ de\ caminhos\ possíveis\ para\ que\ possa\ ser\ acessado\ em\ paralelo}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00322}00322\ \ \ \ \ possiblePaths.resize(numPermutations);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00323}00323\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00324}00324\ \textcolor{preprocessor}{\#pragma\ omp\ parallel\ for}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00325}00325\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ numPermutations;\ ++i)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00326}00326\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00327}00327\ \ \ \ \ \ \ \ \ std::vector<int>\ path;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ capacity\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00329}00329\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00330}00330\ \ \ \ \ \ \ \ \ std::vector<int>\ perm\ =\ permutations[i];}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00332}00332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (perm[0]\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00333}00333\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ perm.insert(perm.begin(),\ 0);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00335}00335\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ permutationSize\ =\ perm.size();}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00338}00338\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ permutationSize\ -\/\ 1;\ ++j)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00340}00340\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ from\ =\ perm[j];}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ to\ =\ perm[j\ +\ 1];}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ nextNodeCapacity\ =\ nodes.at(to);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00344}00344\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ distances.find(\{from,\ to\});}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00346}00346\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ distances.end()\ \&\&\ capacity\ +\ nextNodeCapacity\ <=\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(from);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ +=\ nextNodeCapacity;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(from);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (from\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ =\ nextNodeCapacity;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00361}00361\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00362}00362\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00363}00363\ \ \ \ \ \ \ \ \ path.push\_back(perm.back());}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00364}00364\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00365}00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (path.back()\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00366}00366\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00368}00368\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00369}00369\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00370}00370\ \ \ \ \ \ \ \ \ possiblePaths[i]\ =\ path;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00371}00371\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00372}00372\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00373}00373\ \ \ \ \ \textcolor{keywordflow}{return}\ possiblePaths;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00374}00374\ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00375}00375\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00389}\mbox{\hyperlink{base_8cpp_a2b6427f7baa3ba683691af7b83fbd061}{00389}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{base_8cpp_a2b6427f7baa3ba683691af7b83fbd061}{findClosestNode}}(\textcolor{keywordtype}{int}\ node,\ \textcolor{keyword}{const}\ std::set<int>\ \&unvisitedNodes,\ \textcolor{keyword}{const}\ std::map<int,\ int>\ \&nodes,\ \textcolor{keyword}{const}\ std::map<std::pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00390}00390\ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00391}00391\ \ \ \ \ \textcolor{keywordtype}{int}\ closestNode\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00392}00392\ \ \ \ \ \textcolor{keywordtype}{int}\ minDistance\ =\ INT\_MAX;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00393}00393\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00394}00394\ \ \ \ \ std::vector<int>\ unvisitedVector(unvisitedNodes.begin(),\ unvisitedNodes.end());}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00395}00395\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00396}00396\ \textcolor{preprocessor}{\#pragma\ omp\ parallel\ for\ shared(node,\ unvisitedVector,\ distances)\ reduction(min\ :\ minDistance)}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00397}00397\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ unvisitedVector.size();\ ++i)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00398}00398\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00399}00399\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ candidate\ =\ unvisitedVector[i];}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00400}00400\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (candidate\ !=\ node)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00401}00401\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ distIt\ =\ distances.find(\{node,\ candidate\});}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distIt\ !=\ distances.end())}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ distance\ =\ distIt-\/>second;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00406}00406\ \textcolor{preprocessor}{\#pragma\ omp\ critical}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\ <\ minDistance)}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ minDistance\ =\ distance;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ closestNode\ =\ candidate;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00415}00415\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00416}00416\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00418}00418\ \ \ \ \ \textcolor{keywordflow}{return}\ closestNode;}
+\DoxyCodeLine{\Hypertarget{base_8cpp_source_l00419}00419\ \}}
+
+\end{DoxyCode}

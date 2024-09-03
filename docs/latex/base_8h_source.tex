@@ -1,0 +1,26 @@
+\doxysection{base.\+h}
+\hypertarget{base_8h_source}{}\label{base_8h_source}\mbox{\hyperlink{base_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ BASE\_H}}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ BASE\_H}}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00010}00010\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{base_8h_a2624bf9ab2b21423b2db2552184d5b28}{load\_graph}}(\textcolor{keyword}{const}\ std::string\ \&filename,\ std::map<int,\ int>\ \&nodes,\ std::map<std::pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances);}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00011}00011\ std::vector<std::vector<int>>\ \mbox{\hyperlink{base_8h_a7cbb4c4226abd328bc58494db7cd0fb4}{generatePermutations}}(\textcolor{keyword}{const}\ std::map<int,\ int>\ \&locations);}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00012}00012\ std::vector<std::vector<int>>\ \mbox{\hyperlink{base_8h_a333de721d98fe25d170207ab7dcefcb9}{generatePermutationsParallel}}(\textcolor{keyword}{const}\ std::map<int,\ int>\ \&locations);}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00013}00013\ std::vector<std::vector<int>>\ \mbox{\hyperlink{base_8h_ae74b6609b234c3d17058915b8027e4e4}{generatePermutationsParallelOptimized}}(\textcolor{keyword}{const}\ std::map<int,\ int>\ \&locations);}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00014}00014\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{base_8h_a3a931a003fc5d54216cb1f8e2e18e62e}{printPermutations}}(\textcolor{keyword}{const}\ std::vector<std::vector<int>>\ \&permutations);}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00015}00015\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{base_8h_aea961002f2293e9dd0e3e50198c2bf0d}{printPaths}}(\textcolor{keyword}{const}\ std::vector<std::vector<int>>\ \&possiblePaths);}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00016}00016\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{base_8h_a074d0982adecc6481f7602941bd1189f}{printPath}}(\textcolor{keyword}{const}\ std::vector<int>\ \&path,\ \textcolor{keyword}{const}\ std::string\ \&text\ =\ \textcolor{stringliteral}{"{}"{}},\ \textcolor{keywordtype}{int}\ cost\ =\ 0);}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00017}00017\ std::vector<std::vector<int>>\ \mbox{\hyperlink{base_8h_a84b1c6dd6025339ba8efaef58aced818}{generatePossiblePaths}}(std::vector<std::vector<int>>\ permutations,\ \textcolor{keyword}{const}\ std::map<std::pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ \textcolor{keyword}{const}\ std::map<int,\ int>\ \&nodes,\ \textcolor{keywordtype}{int}\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00018}00018\ std::vector<std::vector<int>>\ \mbox{\hyperlink{base_8h_a5296eb2e4a780a71e9c97b34356ac247}{generatePossiblePathsParallel}}(\textcolor{keyword}{const}\ std::vector<std::vector<int>>\ \&permutations,\ \textcolor{keyword}{const}\ std::map<std::pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ \textcolor{keyword}{const}\ std::map<int,\ int>\ \&nodes,\ \textcolor{keywordtype}{int}\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00019}00019\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{base_8h_a2b6427f7baa3ba683691af7b83fbd061}{findClosestNode}}(\textcolor{keywordtype}{int}\ node,\ \textcolor{keyword}{const}\ std::set<int>\ \&unvisitedNodes,\ \textcolor{keyword}{const}\ std::map<int,\ int>\ \&nodes,\ \textcolor{keyword}{const}\ std::map<std::pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances);}
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{base_8h_source_l00021}00021\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ BASE\_H}}
+
+\end{DoxyCode}

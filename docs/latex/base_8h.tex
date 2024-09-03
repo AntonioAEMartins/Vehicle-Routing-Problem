@@ -1,0 +1,287 @@
+\doxysection{base.\+h File Reference}
+\hypertarget{base_8h}{}\label{base_8h}\index{base.h@{base.h}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{base_8h_a2624bf9ab2b21423b2db2552184d5b28}{load\+\_\+graph}} (const std\+::string \&filename, std\+::map$<$ int, int $>$ \&nodes, std\+::map$<$ std\+::pair$<$ int, int $>$, int $>$ \&distances)
+\begin{DoxyCompactList}\small\item\em Loads a graph from a file. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \mbox{\hyperlink{base_8h_a7cbb4c4226abd328bc58494db7cd0fb4}{generate\+Permutations}} (const std\+::map$<$ int, int $>$ \&locations)
+\begin{DoxyCompactList}\small\item\em Generates all permutations of node indices. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \mbox{\hyperlink{base_8h_a333de721d98fe25d170207ab7dcefcb9}{generate\+Permutations\+Parallel}} (const std\+::map$<$ int, int $>$ \&locations)
+\begin{DoxyCompactList}\small\item\em Generates all permutations of node indices using parallel processing. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \mbox{\hyperlink{base_8h_ae74b6609b234c3d17058915b8027e4e4}{generate\+Permutations\+Parallel\+Optimized}} (const std\+::map$<$ int, int $>$ \&locations)
+\begin{DoxyCompactList}\small\item\em Generates all permutations of node indices using parallel processing with optimized sorting. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{base_8h_a3a931a003fc5d54216cb1f8e2e18e62e}{print\+Permutations}} (const std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \&permutations)
+\begin{DoxyCompactList}\small\item\em Prints all permutations of nodes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{base_8h_aea961002f2293e9dd0e3e50198c2bf0d}{print\+Paths}} (const std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \&possible\+Paths)
+\begin{DoxyCompactList}\small\item\em Prints all possible paths. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{base_8h_a074d0982adecc6481f7602941bd1189f}{print\+Path}} (const std\+::vector$<$ int $>$ \&path, const std\+::string \&text="{}"{}, int cost=0)
+\begin{DoxyCompactList}\small\item\em Prints a single path with its associated cost. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \mbox{\hyperlink{base_8h_a84b1c6dd6025339ba8efaef58aced818}{generate\+Possible\+Paths}} (std\+::vector$<$ std\+::vector$<$ int $>$ $>$ permutations, const std\+::map$<$ std\+::pair$<$ int, int $>$, int $>$ \&distances, const std\+::map$<$ int, int $>$ \&nodes, int max\+Capacity)
+\begin{DoxyCompactList}\small\item\em Generates possible paths based on permutations, distances, and node capacities. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \mbox{\hyperlink{base_8h_a5296eb2e4a780a71e9c97b34356ac247}{generate\+Possible\+Paths\+Parallel}} (const std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \&permutations, const std\+::map$<$ std\+::pair$<$ int, int $>$, int $>$ \&distances, const std\+::map$<$ int, int $>$ \&nodes, int max\+Capacity)
+\begin{DoxyCompactList}\small\item\em Generates possible paths using parallel processing. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{base_8h_a2b6427f7baa3ba683691af7b83fbd061}{find\+Closest\+Node}} (int node, const std\+::set$<$ int $>$ \&unvisited\+Nodes, const std\+::map$<$ int, int $>$ \&nodes, const std\+::map$<$ std\+::pair$<$ int, int $>$, int $>$ \&distances)
+\begin{DoxyCompactList}\small\item\em Finds the closest unvisited node from a given node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{base_8h_a2b6427f7baa3ba683691af7b83fbd061}\index{base.h@{base.h}!findClosestNode@{findClosestNode}}
+\index{findClosestNode@{findClosestNode}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{findClosestNode()}{findClosestNode()}}
+{\footnotesize\ttfamily \label{base_8h_a2b6427f7baa3ba683691af7b83fbd061} 
+int find\+Closest\+Node (\begin{DoxyParamCaption}\item[{int}]{node}{, }\item[{const std\+::set$<$ int $>$ \&}]{unvisited\+Nodes}{, }\item[{const std\+::map$<$ int, int $>$ \&}]{nodes}{, }\item[{const std\+::map$<$ std\+::pair$<$ int, int $>$, int $>$ \&}]{distances}{}\end{DoxyParamCaption})}
+
+
+
+Finds the closest unvisited node from a given node. 
+
+This function calculates the closest node to a given node from a set of unvisited nodes, based on the distances between them. It returns the node ID of the closest node.
+
+
+\begin{DoxyParams}{Parameters}
+{\em node} & The current node ID. \\
+\hline
+{\em unvisited\+Nodes} & A set of node IDs representing unvisited nodes. \\
+\hline
+{\em nodes} & A map of nodes and their capacities. \\
+\hline
+{\em distances} & A map of distances between pairs of nodes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The node ID of the closest unvisited node. If no such node exists, returns -\/1. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{base_8cpp_source_l00389}{389}} of file \mbox{\hyperlink{base_8cpp_source}{base.\+cpp}}.
+
+\Hypertarget{base_8h_a7cbb4c4226abd328bc58494db7cd0fb4}\index{base.h@{base.h}!generatePermutations@{generatePermutations}}
+\index{generatePermutations@{generatePermutations}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{generatePermutations()}{generatePermutations()}}
+{\footnotesize\ttfamily \label{base_8h_a7cbb4c4226abd328bc58494db7cd0fb4} 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ generate\+Permutations (\begin{DoxyParamCaption}\item[{const std\+::map$<$ int, int $>$ \&}]{locations}{}\end{DoxyParamCaption})}
+
+
+
+Generates all permutations of node indices. 
+
+This function generates all possible permutations of node indices based on the input locations. It uses the standard library\textquotesingle{}s next\+\_\+permutation to produce all possible orderings of nodes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em locations} & A map of node IDs and associated values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of vectors, where each inner vector represents a permutation of node indices. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{base_8cpp_source_l00065}{65}} of file \mbox{\hyperlink{base_8cpp_source}{base.\+cpp}}.
+
+\Hypertarget{base_8h_a333de721d98fe25d170207ab7dcefcb9}\index{base.h@{base.h}!generatePermutationsParallel@{generatePermutationsParallel}}
+\index{generatePermutationsParallel@{generatePermutationsParallel}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{generatePermutationsParallel()}{generatePermutationsParallel()}}
+{\footnotesize\ttfamily \label{base_8h_a333de721d98fe25d170207ab7dcefcb9} 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ generate\+Permutations\+Parallel (\begin{DoxyParamCaption}\item[{const std\+::map$<$ int, int $>$ \&}]{locations}{}\end{DoxyParamCaption})}
+
+
+
+Generates all permutations of node indices using parallel processing. 
+
+This function generates all possible permutations of node indices using Open\+MP for parallel processing. Each permutation is calculated independently and stored in a shared vector.
+
+
+\begin{DoxyParams}{Parameters}
+{\em locations} & A map of node IDs and associated values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of vectors, where each inner vector represents a permutation of node indices, computed in parallel. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{base_8cpp_source_l00101}{101}} of file \mbox{\hyperlink{base_8cpp_source}{base.\+cpp}}.
+
+\Hypertarget{base_8h_ae74b6609b234c3d17058915b8027e4e4}\index{base.h@{base.h}!generatePermutationsParallelOptimized@{generatePermutationsParallelOptimized}}
+\index{generatePermutationsParallelOptimized@{generatePermutationsParallelOptimized}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{generatePermutationsParallelOptimized()}{generatePermutationsParallelOptimized()}}
+{\footnotesize\ttfamily \label{base_8h_ae74b6609b234c3d17058915b8027e4e4} 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ generate\+Permutations\+Parallel\+Optimized (\begin{DoxyParamCaption}\item[{const std\+::map$<$ int, int $>$ \&}]{locations}{}\end{DoxyParamCaption})}
+
+
+
+Generates all permutations of node indices using parallel processing with optimized sorting. 
+
+This function first generates all possible permutations of node indices in a sorted order and then copies them into a parallel vector using Open\+MP for optimized performance.
+
+
+\begin{DoxyParams}{Parameters}
+{\em locations} & A map of node IDs and associated values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of vectors, where each inner vector represents a permutation of node indices, optimized and computed in parallel. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{base_8cpp_source_l00144}{144}} of file \mbox{\hyperlink{base_8cpp_source}{base.\+cpp}}.
+
+\Hypertarget{base_8h_a84b1c6dd6025339ba8efaef58aced818}\index{base.h@{base.h}!generatePossiblePaths@{generatePossiblePaths}}
+\index{generatePossiblePaths@{generatePossiblePaths}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{generatePossiblePaths()}{generatePossiblePaths()}}
+{\footnotesize\ttfamily \label{base_8h_a84b1c6dd6025339ba8efaef58aced818} 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ generate\+Possible\+Paths (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::vector$<$ int $>$ $>$}]{permutations}{, }\item[{const std\+::map$<$ std\+::pair$<$ int, int $>$, int $>$ \&}]{distances}{, }\item[{const std\+::map$<$ int, int $>$ \&}]{nodes}{, }\item[{int}]{max\+Capacity}{}\end{DoxyParamCaption})}
+
+
+
+Generates possible paths based on permutations, distances, and node capacities. 
+
+This function takes permutations of nodes and generates paths that respect maximum capacity constraints. It ensures that each path starts and ends at the origin node and that no path exceeds the maximum capacity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em permutations} & A vector of vectors, where each inner vector represents a permutation of node indices. \\
+\hline
+{\em distances} & A map of distances between pairs of nodes. \\
+\hline
+{\em nodes} & A map of nodes and their capacities. \\
+\hline
+{\em max\+Capacity} & The maximum capacity constraint for each path. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of vectors, where each inner vector represents a valid path respecting the capacity constraint. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{base_8cpp_source_l00249}{249}} of file \mbox{\hyperlink{base_8cpp_source}{base.\+cpp}}.
+
+\Hypertarget{base_8h_a5296eb2e4a780a71e9c97b34356ac247}\index{base.h@{base.h}!generatePossiblePathsParallel@{generatePossiblePathsParallel}}
+\index{generatePossiblePathsParallel@{generatePossiblePathsParallel}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{generatePossiblePathsParallel()}{generatePossiblePathsParallel()}}
+{\footnotesize\ttfamily \label{base_8h_a5296eb2e4a780a71e9c97b34356ac247} 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ generate\+Possible\+Paths\+Parallel (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \&}]{permutations}{, }\item[{const std\+::map$<$ std\+::pair$<$ int, int $>$, int $>$ \&}]{distances}{, }\item[{const std\+::map$<$ int, int $>$ \&}]{nodes}{, }\item[{int}]{max\+Capacity}{}\end{DoxyParamCaption})}
+
+
+
+Generates possible paths using parallel processing. 
+
+This function takes permutations of nodes and generates paths that respect maximum capacity constraints in parallel. It ensures that each path starts and ends at the origin node and that no path exceeds the maximum capacity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em permutations} & A vector of vectors, where each inner vector represents a permutation of node indices. \\
+\hline
+{\em distances} & A map of distances between pairs of nodes. \\
+\hline
+{\em nodes} & A map of nodes and their capacities. \\
+\hline
+{\em max\+Capacity} & The maximum capacity constraint for each path. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of vectors, where each inner vector represents a valid path respecting the capacity constraint, computed in parallel. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{base_8cpp_source_l00316}{316}} of file \mbox{\hyperlink{base_8cpp_source}{base.\+cpp}}.
+
+\Hypertarget{base_8h_a2624bf9ab2b21423b2db2552184d5b28}\index{base.h@{base.h}!load\_graph@{load\_graph}}
+\index{load\_graph@{load\_graph}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{load\_graph()}{load\_graph()}}
+{\footnotesize\ttfamily \label{base_8h_a2624bf9ab2b21423b2db2552184d5b28} 
+void load\+\_\+graph (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename}{, }\item[{std\+::map$<$ int, int $>$ \&}]{nodes}{, }\item[{std\+::map$<$ std\+::pair$<$ int, int $>$, int $>$ \&}]{distances}{}\end{DoxyParamCaption})}
+
+
+
+Loads a graph from a file. 
+
+This function reads a graph definition from a file and loads the nodes and distances into maps. The graph file should contain the number of nodes, each node\textquotesingle{}s ID and associated value, followed by the number of edges and each edge\textquotesingle{}s nodes and distance.
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file containing the graph definition. \\
+\hline
+{\em nodes} & A map where the keys are node IDs and the values are associated values (e.\+g., capacity or demand). \\
+\hline
+{\em distances} & A map where the keys are pairs of node IDs representing edges, and the values are the distances between those nodes. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{base_8cpp_source_l00019}{19}} of file \mbox{\hyperlink{base_8cpp_source}{base.\+cpp}}.
+
+\Hypertarget{base_8h_a074d0982adecc6481f7602941bd1189f}\index{base.h@{base.h}!printPath@{printPath}}
+\index{printPath@{printPath}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{printPath()}{printPath()}}
+{\footnotesize\ttfamily \label{base_8h_a074d0982adecc6481f7602941bd1189f} 
+void print\+Path (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ int $>$ \&}]{path}{, }\item[{const std\+::string \&}]{text}{, }\item[{int}]{cost}{}\end{DoxyParamCaption})}
+
+
+
+Prints a single path with its associated cost. 
+
+This function prints a path to the standard output along with a descriptive text and the total cost.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & A vector representing the nodes in the path. \\
+\hline
+{\em text} & A string description to accompany the path output. \\
+\hline
+{\em cost} & The total cost associated with the path. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{base_8cpp_source_l00226}{226}} of file \mbox{\hyperlink{base_8cpp_source}{base.\+cpp}}.
+
+\Hypertarget{base_8h_aea961002f2293e9dd0e3e50198c2bf0d}\index{base.h@{base.h}!printPaths@{printPaths}}
+\index{printPaths@{printPaths}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{printPaths()}{printPaths()}}
+{\footnotesize\ttfamily \label{base_8h_aea961002f2293e9dd0e3e50198c2bf0d} 
+void print\+Paths (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \&}]{possible\+Paths}{}\end{DoxyParamCaption})}
+
+
+
+Prints all possible paths. 
+
+This function prints each possible path to the standard output.
+
+
+\begin{DoxyParams}{Parameters}
+{\em possible\+Paths} & A vector of vectors, where each inner vector represents a possible path. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{base_8cpp_source_l00203}{203}} of file \mbox{\hyperlink{base_8cpp_source}{base.\+cpp}}.
+
+\Hypertarget{base_8h_a3a931a003fc5d54216cb1f8e2e18e62e}\index{base.h@{base.h}!printPermutations@{printPermutations}}
+\index{printPermutations@{printPermutations}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{printPermutations()}{printPermutations()}}
+{\footnotesize\ttfamily \label{base_8h_a3a931a003fc5d54216cb1f8e2e18e62e} 
+void print\+Permutations (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \&}]{permutations}{}\end{DoxyParamCaption})}
+
+
+
+Prints all permutations of nodes. 
+
+This function prints each permutation of nodes to the standard output.
+
+
+\begin{DoxyParams}{Parameters}
+{\em permutations} & A vector of vectors, where each inner vector represents a permutation of node indices. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{base_8cpp_source_l00181}{181}} of file \mbox{\hyperlink{base_8cpp_source}{base.\+cpp}}.
+

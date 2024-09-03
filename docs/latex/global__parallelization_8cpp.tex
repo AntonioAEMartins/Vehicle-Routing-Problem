@@ -1,0 +1,241 @@
+\doxysection{global\+\_\+parallelization.\+cpp File Reference}
+\hypertarget{global__parallelization_8cpp}{}\label{global__parallelization_8cpp}\index{global\_parallelization.cpp@{global\_parallelization.cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$omp.\+h$>$}\newline
+{\ttfamily \#include "{}base.\+h"{}}\newline
+{\ttfamily \#include $<$mpi.\+h$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$climits$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ int $>$ \mbox{\hyperlink{global__parallelization_8cpp_a4fed75b1f8e950ee4c1290fa55be2311}{find\+Best\+Path}} (vector$<$ vector$<$ int $>$ $>$ possible\+Paths, map$<$ pair$<$ int, int $>$, int $>$ \&distances, int \&cost)
+\begin{DoxyCompactList}\small\item\em Finds the best path with the minimum cost from a set of possible paths. \end{DoxyCompactList}\item 
+vector$<$ int $>$ \mbox{\hyperlink{global__parallelization_8cpp_a7cf3e3e730f1f264ddd819a2ade76169}{find\+Best\+Path\+Parallel}} (vector$<$ vector$<$ int $>$ $>$ possible\+Paths, map$<$ pair$<$ int, int $>$, int $>$ \&distances, int \&cost)
+\begin{DoxyCompactList}\small\item\em Finds the best path with the minimum cost from a set of possible paths using parallel processing. \end{DoxyCompactList}\item 
+vector$<$ int $>$ \mbox{\hyperlink{global__parallelization_8cpp_a63e20c0ca77cbe80cadb154f7a41c633}{find\+Best\+Path\+Parallel\+MPI}} (vector$<$ vector$<$ int $>$ $>$ possible\+Paths, map$<$ pair$<$ int, int $>$, int $>$ \&distances, int \&cost, int rank, int size)
+\begin{DoxyCompactList}\small\item\em Finds the best path with the minimum cost from a set of possible paths using parallel processing with MPI. \end{DoxyCompactList}\item 
+vector$<$ int $>$ \mbox{\hyperlink{global__parallelization_8cpp_a3de78c131c03102f2d0273138cb3b9b3}{nearest\+Neighbor\+Search}} (map$<$ pair$<$ int, int $>$, int $>$ \&distances, map$<$ int, int $>$ \&nodes, int \&cost, int max\+Capacity)
+\begin{DoxyCompactList}\small\item\em Finds a path using the nearest neighbor heuristic. \end{DoxyCompactList}\item 
+vector$<$ int $>$ \mbox{\hyperlink{global__parallelization_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24}{nearest\+Neighbor\+Search\+Parallel}} (map$<$ pair$<$ int, int $>$, int $>$ \&distances, map$<$ int, int $>$ \&nodes, int \&cost, int max\+Capacity)
+\begin{DoxyCompactList}\small\item\em Finds a path using the nearest neighbor heuristic with parallel processing. \end{DoxyCompactList}\item 
+vector$<$ int $>$ \mbox{\hyperlink{global__parallelization_8cpp_aae04e4c9014035b5e4adb2ef9e442d50}{nearest\+Neighbor\+Search\+Parallel\+MPI}} (map$<$ pair$<$ int, int $>$, int $>$ \&distances, map$<$ int, int $>$ \&nodes, int \&cost, int max\+Capacity, int rank, int size)
+\begin{DoxyCompactList}\small\item\em Finds a path using the nearest neighbor heuristic with parallel processing and MPI. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{global__parallelization_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}argv)
+\begin{DoxyCompactList}\small\item\em Main function to execute the pathfinding algorithms. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{global__parallelization_8cpp_a4fed75b1f8e950ee4c1290fa55be2311}\index{global\_parallelization.cpp@{global\_parallelization.cpp}!findBestPath@{findBestPath}}
+\index{findBestPath@{findBestPath}!global\_parallelization.cpp@{global\_parallelization.cpp}}
+\doxysubsubsection{\texorpdfstring{findBestPath()}{findBestPath()}}
+{\footnotesize\ttfamily \label{global__parallelization_8cpp_a4fed75b1f8e950ee4c1290fa55be2311} 
+vector$<$ int $>$ find\+Best\+Path (\begin{DoxyParamCaption}\item[{vector$<$ vector$<$ int $>$ $>$}]{possible\+Paths}{, }\item[{map$<$ pair$<$ int, int $>$, int $>$ \&}]{distances}{, }\item[{int \&}]{cost}{}\end{DoxyParamCaption})}
+
+
+
+Finds the best path with the minimum cost from a set of possible paths. 
+
+This function iterates through all possible paths and calculates their respective costs using the provided distances. It then selects the path with the minimum cost.
+
+
+\begin{DoxyParams}{Parameters}
+{\em possible\+Paths} & A vector of vectors where each inner vector represents a possible path as a sequence of nodes. \\
+\hline
+{\em distances} & A map that holds the distances between pairs of nodes. \\
+\hline
+{\em cost} & A reference to an integer where the cost of the best path will be stored. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of integers representing the nodes in the best path with the minimum cost. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{global__parallelization_8cpp_source_l00028}{28}} of file \mbox{\hyperlink{global__parallelization_8cpp_source}{global\+\_\+parallelization.\+cpp}}.
+
+\Hypertarget{global__parallelization_8cpp_a7cf3e3e730f1f264ddd819a2ade76169}\index{global\_parallelization.cpp@{global\_parallelization.cpp}!findBestPathParallel@{findBestPathParallel}}
+\index{findBestPathParallel@{findBestPathParallel}!global\_parallelization.cpp@{global\_parallelization.cpp}}
+\doxysubsubsection{\texorpdfstring{findBestPathParallel()}{findBestPathParallel()}}
+{\footnotesize\ttfamily \label{global__parallelization_8cpp_a7cf3e3e730f1f264ddd819a2ade76169} 
+vector$<$ int $>$ find\+Best\+Path\+Parallel (\begin{DoxyParamCaption}\item[{vector$<$ vector$<$ int $>$ $>$}]{possible\+Paths}{, }\item[{map$<$ pair$<$ int, int $>$, int $>$ \&}]{distances}{, }\item[{int \&}]{cost}{}\end{DoxyParamCaption})}
+
+
+
+Finds the best path with the minimum cost from a set of possible paths using parallel processing. 
+
+This function performs a parallel search to find the path with the minimum cost from a set of possible paths. The distances are used to calculate the cost of each path in parallel.
+
+
+\begin{DoxyParams}{Parameters}
+{\em possible\+Paths} & A vector of vectors where each inner vector represents a possible path as a sequence of nodes. \\
+\hline
+{\em distances} & A map that holds the distances between pairs of nodes. \\
+\hline
+{\em cost} & A reference to an integer where the cost of the best path will be stored. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of integers representing the nodes in the best path with the minimum cost. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{global__parallelization_8cpp_source_l00066}{66}} of file \mbox{\hyperlink{global__parallelization_8cpp_source}{global\+\_\+parallelization.\+cpp}}.
+
+\Hypertarget{global__parallelization_8cpp_a63e20c0ca77cbe80cadb154f7a41c633}\index{global\_parallelization.cpp@{global\_parallelization.cpp}!findBestPathParallelMPI@{findBestPathParallelMPI}}
+\index{findBestPathParallelMPI@{findBestPathParallelMPI}!global\_parallelization.cpp@{global\_parallelization.cpp}}
+\doxysubsubsection{\texorpdfstring{findBestPathParallelMPI()}{findBestPathParallelMPI()}}
+{\footnotesize\ttfamily \label{global__parallelization_8cpp_a63e20c0ca77cbe80cadb154f7a41c633} 
+vector$<$ int $>$ find\+Best\+Path\+Parallel\+MPI (\begin{DoxyParamCaption}\item[{vector$<$ vector$<$ int $>$ $>$}]{possible\+Paths}{, }\item[{map$<$ pair$<$ int, int $>$, int $>$ \&}]{distances}{, }\item[{int \&}]{cost}{, }\item[{int}]{rank}{, }\item[{int}]{size}{}\end{DoxyParamCaption})}
+
+
+
+Finds the best path with the minimum cost from a set of possible paths using parallel processing with MPI. 
+
+This function performs a parallel search to find the path with the minimum cost using MPI for distributed computing. The distances are used to calculate the cost of each path in parallel across different MPI processes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em possible\+Paths} & A vector of vectors where each inner vector represents a possible path as a sequence of nodes. \\
+\hline
+{\em distances} & A map that holds the distances between pairs of nodes. \\
+\hline
+{\em cost} & A reference to an integer where the cost of the best path will be stored. \\
+\hline
+{\em rank} & The rank of the current MPI process. \\
+\hline
+{\em size} & The total number of MPI processes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of integers representing the nodes in the best path with the minimum cost. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{global__parallelization_8cpp_source_l00106}{106}} of file \mbox{\hyperlink{global__parallelization_8cpp_source}{global\+\_\+parallelization.\+cpp}}.
+
+\Hypertarget{global__parallelization_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\index{global\_parallelization.cpp@{global\_parallelization.cpp}!main@{main}}
+\index{main@{main}!global\_parallelization.cpp@{global\_parallelization.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{global__parallelization_8cpp_a3c04138a5bfe5d72780bb7e82a18e627} 
+int main (\begin{DoxyParamCaption}\item[{int}]{argc}{, }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{argv}{}\end{DoxyParamCaption})}
+
+
+
+Main function to execute the pathfinding algorithms. 
+
+This function initializes MPI, loads the graph data, and executes various pathfinding algorithms including sequential, parallel, and MPI-\/based approaches. It measures and prints the execution time for each algorithm.
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & The number of command-\/line arguments. \\
+\hline
+{\em argv} & The array of command-\/line arguments. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns 0 upon successful execution. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{global__parallelization_8cpp_source_l00410}{410}} of file \mbox{\hyperlink{global__parallelization_8cpp_source}{global\+\_\+parallelization.\+cpp}}.
+
+\Hypertarget{global__parallelization_8cpp_a3de78c131c03102f2d0273138cb3b9b3}\index{global\_parallelization.cpp@{global\_parallelization.cpp}!nearestNeighborSearch@{nearestNeighborSearch}}
+\index{nearestNeighborSearch@{nearestNeighborSearch}!global\_parallelization.cpp@{global\_parallelization.cpp}}
+\doxysubsubsection{\texorpdfstring{nearestNeighborSearch()}{nearestNeighborSearch()}}
+{\footnotesize\ttfamily \label{global__parallelization_8cpp_a3de78c131c03102f2d0273138cb3b9b3} 
+vector$<$ int $>$ nearest\+Neighbor\+Search (\begin{DoxyParamCaption}\item[{map$<$ pair$<$ int, int $>$, int $>$ \&}]{distances}{, }\item[{map$<$ int, int $>$ \&}]{nodes}{, }\item[{int \&}]{cost}{, }\item[{int}]{max\+Capacity}{}\end{DoxyParamCaption})}
+
+
+
+Finds a path using the nearest neighbor heuristic. 
+
+This function finds a path starting from the initial node and repeatedly visits the nearest unvisited node until all nodes are visited. It then returns to the starting node. The cost is calculated based on the distances.
+
+
+\begin{DoxyParams}{Parameters}
+{\em distances} & A map that holds the distances between pairs of nodes. \\
+\hline
+{\em nodes} & A map of nodes with their capacities. \\
+\hline
+{\em cost} & A reference to an integer where the cost of the path will be stored. \\
+\hline
+{\em max\+Capacity} & The maximum capacity allowed for the path. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of integers representing the nodes in the path found using the nearest neighbor heuristic. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{global__parallelization_8cpp_source_l00184}{184}} of file \mbox{\hyperlink{global__parallelization_8cpp_source}{global\+\_\+parallelization.\+cpp}}.
+
+\Hypertarget{global__parallelization_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24}\index{global\_parallelization.cpp@{global\_parallelization.cpp}!nearestNeighborSearchParallel@{nearestNeighborSearchParallel}}
+\index{nearestNeighborSearchParallel@{nearestNeighborSearchParallel}!global\_parallelization.cpp@{global\_parallelization.cpp}}
+\doxysubsubsection{\texorpdfstring{nearestNeighborSearchParallel()}{nearestNeighborSearchParallel()}}
+{\footnotesize\ttfamily \label{global__parallelization_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24} 
+vector$<$ int $>$ nearest\+Neighbor\+Search\+Parallel (\begin{DoxyParamCaption}\item[{map$<$ pair$<$ int, int $>$, int $>$ \&}]{distances}{, }\item[{map$<$ int, int $>$ \&}]{nodes}{, }\item[{int \&}]{cost}{, }\item[{int}]{max\+Capacity}{}\end{DoxyParamCaption})}
+
+
+
+Finds a path using the nearest neighbor heuristic with parallel processing. 
+
+This function performs a parallel search using the nearest neighbor heuristic. It finds the nearest unvisited node in parallel and updates the path and cost accordingly.
+
+
+\begin{DoxyParams}{Parameters}
+{\em distances} & A map that holds the distances between pairs of nodes. \\
+\hline
+{\em nodes} & A map of nodes with their capacities. \\
+\hline
+{\em cost} & A reference to an integer where the cost of the path will be stored. \\
+\hline
+{\em max\+Capacity} & The maximum capacity allowed for the path. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of integers representing the nodes in the path found using the nearest neighbor heuristic in parallel. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{global__parallelization_8cpp_source_l00245}{245}} of file \mbox{\hyperlink{global__parallelization_8cpp_source}{global\+\_\+parallelization.\+cpp}}.
+
+\Hypertarget{global__parallelization_8cpp_aae04e4c9014035b5e4adb2ef9e442d50}\index{global\_parallelization.cpp@{global\_parallelization.cpp}!nearestNeighborSearchParallelMPI@{nearestNeighborSearchParallelMPI}}
+\index{nearestNeighborSearchParallelMPI@{nearestNeighborSearchParallelMPI}!global\_parallelization.cpp@{global\_parallelization.cpp}}
+\doxysubsubsection{\texorpdfstring{nearestNeighborSearchParallelMPI()}{nearestNeighborSearchParallelMPI()}}
+{\footnotesize\ttfamily \label{global__parallelization_8cpp_aae04e4c9014035b5e4adb2ef9e442d50} 
+vector$<$ int $>$ nearest\+Neighbor\+Search\+Parallel\+MPI (\begin{DoxyParamCaption}\item[{map$<$ pair$<$ int, int $>$, int $>$ \&}]{distances}{, }\item[{map$<$ int, int $>$ \&}]{nodes}{, }\item[{int \&}]{cost}{, }\item[{int}]{max\+Capacity}{, }\item[{int}]{rank}{, }\item[{int}]{size}{}\end{DoxyParamCaption})}
+
+
+
+Finds a path using the nearest neighbor heuristic with parallel processing and MPI. 
+
+This function performs a parallel search using both Open\+MP and MPI to find a path based on the nearest neighbor heuristic. It distributes the search process across multiple MPI processes and uses Open\+MP to parallelize within each process.
+
+
+\begin{DoxyParams}{Parameters}
+{\em distances} & A map that holds the distances between pairs of nodes. \\
+\hline
+{\em nodes} & A map of nodes with their capacities. \\
+\hline
+{\em cost} & A reference to an integer where the cost of the path will be stored. \\
+\hline
+{\em max\+Capacity} & The maximum capacity allowed for the path. \\
+\hline
+{\em rank} & The rank of the current MPI process. \\
+\hline
+{\em size} & The total number of MPI processes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of integers representing the nodes in the path found using the nearest neighbor heuristic with MPI. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{global__parallelization_8cpp_source_l00328}{328}} of file \mbox{\hyperlink{global__parallelization_8cpp_source}{global\+\_\+parallelization.\+cpp}}.
+

@@ -1,0 +1,120 @@
+\doxysection{global.\+cpp}
+\hypertarget{global_8cpp_source}{}\label{global_8cpp_source}\mbox{\hyperlink{global_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <climits>}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <omp.h>}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{base_8h}{base.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00011}00011\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00012}00012\ \textcolor{keyword}{using\ namespace\ }std::chrono;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00014}\mbox{\hyperlink{global_8cpp_a4fed75b1f8e950ee4c1290fa55be2311}{00014}}\ vector<int>\ \mbox{\hyperlink{global_8cpp_a4fed75b1f8e950ee4c1290fa55be2311}{findBestPath}}(vector<vector<int>>\ possiblePaths,\ map<pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ \textcolor{keywordtype}{int}\ \&cost)}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00015}00015\ \{}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00016}00016\ \ \ \ \ vector<int>\ bestPath;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00017}00017\ \ \ \ \ \textcolor{keywordtype}{int}\ minCost\ =\ INT\_MAX;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00018}00018\ \ \ \ \ \textcolor{keywordtype}{int}\ numPossiblePaths\ =\ possiblePaths.size();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00020}00020\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ possiblePaths.size();\ i++)}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00021}00021\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ pathCost\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ possiblePaths[i].size()\ -\/\ 1;\ j++)}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ from\ =\ possiblePaths[i][j];}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ to\ =\ possiblePaths[i][j\ +\ 1];}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ cost\ =\ distances.at(\{from,\ to\});}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ pathCost\ +=\ cost;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00029}00029\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pathCost\ <\ minCost)}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ minCost\ =\ pathCost;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ bestPath\ =\ possiblePaths[i];}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00035}00035\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00036}00036\ \ \ \ \ cost\ =\ minCost;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{keywordflow}{return}\ bestPath;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00038}00038\ \}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00040}\mbox{\hyperlink{global_8cpp_a7cf3e3e730f1f264ddd819a2ade76169}{00040}}\ vector<int>\ \mbox{\hyperlink{global_8cpp_a7cf3e3e730f1f264ddd819a2ade76169}{findBestPathParallel}}(vector<vector<int>>\ possiblePaths,\ map<pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ \textcolor{keywordtype}{int}\ \&cost)}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00041}00041\ \{}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00042}00042\ \ \ \ \ vector<int>\ bestPath;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00043}00043\ \ \ \ \ \textcolor{keywordtype}{int}\ minCost\ =\ INT\_MAX;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00045}00045\ \textcolor{preprocessor}{\#pragma\ omp\ parallel\ for}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00046}00046\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ possiblePaths.size();\ i++)}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00047}00047\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ pathCost\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ possiblePaths[i].size()\ -\/\ 1;\ j++)}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ from\ =\ possiblePaths[i][j];}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ to\ =\ possiblePaths[i][j\ +\ 1];}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ cost\ =\ distances.at(\{from,\ to\});}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ pathCost\ +=\ cost;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pathCost\ <\ minCost)}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00057}00057\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ minCost\ =\ pathCost;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ bestPath\ =\ possiblePaths[i];}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00061}00061\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00062}00062\ \ \ \ \ cost\ =\ minCost;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{keywordflow}{return}\ bestPath;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00064}00064\ \}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00066}\mbox{\hyperlink{global_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{00066}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{global_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00067}00067\ \{}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00068}00068\ \ \ \ \ \textcolor{keywordtype}{int}\ maxCapacity\ =\ 10;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00069}00069\ \ \ \ \ map<int,\ int>\ nodes;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00070}00070\ \ \ \ \ map<pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ distances;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00071}00071\ \ \ \ \ \mbox{\hyperlink{base_8cpp_a2624bf9ab2b21423b2db2552184d5b28}{load\_graph}}(\textcolor{stringliteral}{"{}../grafo.txt"{}},\ nodes,\ distances);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00073}00073\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}-\/-\/-\/\ Times\ -\/-\/-\/"{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00075}00075\ \ \ \ \ \textcolor{keyword}{auto}\ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00076}00076\ \ \ \ \ vector<vector<int>>\ permutations\ =\ \mbox{\hyperlink{base_8cpp_a7cbb4c4226abd328bc58494db7cd0fb4}{generatePermutations}}(nodes);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00077}00077\ \ \ \ \ \textcolor{keyword}{auto}\ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{keyword}{auto}\ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00079}00079\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Permutations\ (S)\ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00081}00081\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00082}00082\ \ \ \ \ vector<vector<int>>\ permutationsParallel\ =\ \mbox{\hyperlink{base_8cpp_ae74b6609b234c3d17058915b8027e4e4}{generatePermutationsParallelOptimized}}(nodes);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00083}00083\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00084}00084\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Permutations\ (P)\ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00087}00087\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00088}00088\ \ \ \ \ vector<vector<int>>\ possiblePaths\ =\ \mbox{\hyperlink{base_8cpp_a84b1c6dd6025339ba8efaef58aced818}{generatePossiblePaths}}(permutations,\ distances,\ nodes,\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00089}00089\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00090}00090\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00091}00091\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Paths\ (S)\ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00093}00093\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00094}00094\ \ \ \ \ vector<vector<int>>\ possiblePathsParallel\ =\ \mbox{\hyperlink{base_8cpp_a5296eb2e4a780a71e9c97b34356ac247}{generatePossiblePathsParallel}}(permutations,\ distances,\ nodes,\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00095}00095\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00096}00096\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00097}00097\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Paths\ (P)\ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{keywordtype}{int}\ costBestPath\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00100}00100\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00101}00101\ \ \ \ \ vector<int>\ bestPath\ =\ \mbox{\hyperlink{global_8cpp_a4fed75b1f8e950ee4c1290fa55be2311}{findBestPath}}(possiblePaths,\ distances,\ costBestPath);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00102}00102\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00103}00103\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00104}00104\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Best\ Path\ (S)\ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00106}00106\ \ \ \ \ \textcolor{keywordtype}{int}\ costBestPathParallel\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00107}00107\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00108}00108\ \ \ \ \ vector<int>\ bestPathParalles\ =\ \mbox{\hyperlink{global_8cpp_a7cf3e3e730f1f264ddd819a2ade76169}{findBestPathParallel}}(possiblePaths,\ distances,\ costBestPathParallel);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00109}00109\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00110}00110\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00111}00111\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Best\ Path\ (P)\ \ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00113}00113\ \ \ \ \ \mbox{\hyperlink{base_8cpp_ab458f83824d90685efa283d2989d120e}{printPath}}(bestPath,\ \textcolor{stringliteral}{"{}A\ melhor\ rota\ é"{}},\ costBestPath);}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00114}00114\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{global_8cpp_source_l00115}00115\ \}}
+
+\end{DoxyCode}

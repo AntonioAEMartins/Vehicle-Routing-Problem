@@ -1,0 +1,186 @@
+\doxysection{heuristic.\+cpp}
+\hypertarget{heuristic_8cpp_source}{}\label{heuristic_8cpp_source}\mbox{\hyperlink{heuristic_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <climits>}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <omp.h>}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{base_8h}{base.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00016}00016\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00017}00017\ \textcolor{keyword}{using\ namespace\ }std::chrono;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00031}\mbox{\hyperlink{heuristic_8cpp_a3de78c131c03102f2d0273138cb3b9b3}{00031}}\ vector<int>\ \mbox{\hyperlink{heuristic_8cpp_a3de78c131c03102f2d0273138cb3b9b3}{nearestNeighborSearch}}(map<pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ map<int,\ int>\ \&nodes,\ \textcolor{keywordtype}{int}\ \&cost,\ \textcolor{keywordtype}{int}\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00032}00032\ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00033}00033\ \ \ \ \ vector<int>\ path;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00034}00034\ \ \ \ \ cost\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00035}00035\ \ \ \ \ \textcolor{keywordtype}{int}\ capacity\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{keywordtype}{int}\ current\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00037}00037\ \ \ \ \ path.push\_back(current);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00039}00039\ \ \ \ \ set<int>\ unvisitedNodes;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00040}00040\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&node\ :\ nodes)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00041}00041\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (node.first\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ unvisitedNodes.insert(node.first);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00046}00046\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//\ Executar\ enquanto\ ainda\ houver\ nós\ não\ visitados}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ !unvisitedNodes.empty();\ ++i)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00050}00050\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ nearestNode\ =\ \mbox{\hyperlink{base_8cpp_a2b6427f7baa3ba683691af7b83fbd061}{findClosestNode}}(current,\ unvisitedNodes,\ nodes,\ distances);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nearestNode\ !=\ -\/1\ \&\&\ capacity\ +\ nodes.at(nearestNode)\ <=\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(nearestNode);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ nearestNode\});}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ +=\ nodes.at(nearestNode);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ current\ =\ nearestNode;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ unvisitedNodes.erase(nearestNode);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ 0\});}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ current\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00068}00068\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00070}00070\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00071}00071\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ 0\});}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00074}00074\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00076}00076\ \ \ \ \ \textcolor{keywordflow}{return}\ path;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00077}00077\ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00091}\mbox{\hyperlink{heuristic_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24}{00091}}\ vector<int>\ \mbox{\hyperlink{heuristic_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24}{nearestNeighborSearchParallel}}(map<pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ map<int,\ int>\ \&nodes,\ \textcolor{keywordtype}{int}\ \&cost,\ \textcolor{keywordtype}{int}\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00092}00092\ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00093}00093\ \ \ \ \ vector<int>\ path;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00094}00094\ \ \ \ \ cost\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00095}00095\ \ \ \ \ \textcolor{keywordtype}{int}\ capacity\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00096}00096\ \ \ \ \ \textcolor{keywordtype}{int}\ current\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00097}00097\ \ \ \ \ path.push\_back(current);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00099}00099\ \ \ \ \ set<int>\ unvisitedNodes;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&node\ :\ nodes)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00101}00101\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (node.first\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ unvisitedNodes.insert(node.first);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00106}00106\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00108}00108\ \textcolor{preprocessor}{\#pragma\ omp\ parallel}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00109}00109\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00110}00110\ \textcolor{preprocessor}{\#pragma\ omp\ single}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ !unvisitedNodes.empty();\ ++i)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ nearestNode\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00116}00116\ \textcolor{preprocessor}{\#pragma\ omp\ task\ shared(nearestNode)}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nearestNode\ =\ \mbox{\hyperlink{base_8cpp_a2b6427f7baa3ba683691af7b83fbd061}{findClosestNode}}(current,\ unvisitedNodes,\ nodes,\ distances);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00121}00121\ \textcolor{preprocessor}{\#pragma\ omp\ taskwait}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nearestNode\ !=\ -\/1\ \&\&\ capacity\ +\ nodes.at(nearestNode)\ <=\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00124}00124\ \textcolor{preprocessor}{\#pragma\ omp\ critical}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(nearestNode);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ nearestNode\});}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ +=\ nodes.at(nearestNode);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\ =\ nearestNode;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unvisitedNodes.erase(nearestNode);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00135}00135\ \textcolor{preprocessor}{\#pragma\ omp\ critical}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ 0\});}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00147}00147\ \textcolor{preprocessor}{\#pragma\ omp\ critical}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ 0\});}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00154}00154\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00156}00156\ \ \ \ \ \textcolor{keywordflow}{return}\ path;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00157}00157\ \}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00167}\mbox{\hyperlink{heuristic_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{00167}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{heuristic_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00168}00168\ \{}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00169}00169\ \ \ \ \ \textcolor{keywordtype}{int}\ maxCapacity\ =\ 10;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00170}00170\ \ \ \ \ map<int,\ int>\ nodes;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00171}00171\ \ \ \ \ map<pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ distances;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00172}00172\ \ \ \ \ \mbox{\hyperlink{base_8cpp_a2624bf9ab2b21423b2db2552184d5b28}{load\_graph}}(\textcolor{stringliteral}{"{}../grafo.txt"{}},\ nodes,\ distances);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00174}00174\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}-\/-\/-\/\ Times\ -\/-\/-\/"{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00176}00176\ \ \ \ \ \textcolor{keyword}{auto}\ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00177}00177\ \ \ \ \ vector<vector<int>>\ permutations\ =\ \mbox{\hyperlink{base_8cpp_a7cbb4c4226abd328bc58494db7cd0fb4}{generatePermutations}}(nodes);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00178}00178\ \ \ \ \ \textcolor{keyword}{auto}\ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00179}00179\ \ \ \ \ \textcolor{keyword}{auto}\ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00180}00180\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Permutations\ (S)\ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00182}00182\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00183}00183\ \ \ \ \ vector<vector<int>>\ permutationsParallel\ =\ \mbox{\hyperlink{base_8cpp_ae74b6609b234c3d17058915b8027e4e4}{generatePermutationsParallelOptimized}}(nodes);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00184}00184\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00185}00185\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00186}00186\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Permutations\ (P)\ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00188}00188\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00189}00189\ \ \ \ \ vector<vector<int>>\ possiblePaths\ =\ \mbox{\hyperlink{base_8cpp_a84b1c6dd6025339ba8efaef58aced818}{generatePossiblePaths}}(permutations,\ distances,\ nodes,\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00190}00190\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00191}00191\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00192}00192\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Paths\ (S)\ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00194}00194\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00195}00195\ \ \ \ \ vector<vector<int>>\ possiblePathsParallel\ =\ \mbox{\hyperlink{base_8cpp_a5296eb2e4a780a71e9c97b34356ac247}{generatePossiblePathsParallel}}(permutations,\ distances,\ nodes,\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00196}00196\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00197}00197\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00198}00198\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Paths\ (P)\ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00200}00200\ \ \ \ \ \textcolor{keywordtype}{int}\ costNearestNeighbor\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00201}00201\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00202}00202\ \ \ \ \ vector<int>\ nearestNeighborPath\ =\ \mbox{\hyperlink{heuristic_8cpp_a3de78c131c03102f2d0273138cb3b9b3}{nearestNeighborSearch}}(distances,\ nodes,\ costNearestNeighbor,\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00203}00203\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00204}00204\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00205}00205\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Nearest\ Neighbor\ (S)\ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00207}00207\ \ \ \ \ \textcolor{keywordtype}{int}\ costNearestNeighborParallel\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00208}00208\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00209}00209\ \ \ \ \ vector<int>\ nearestNeighborPathParallel\ =\ \mbox{\hyperlink{heuristic_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24}{nearestNeighborSearchParallel}}(distances,\ nodes,\ costNearestNeighborParallel,\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00210}00210\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00211}00211\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00212}00212\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}Nearest\ Neighbor\ (P)\ "{}\ <<\ duration.count()\ <<\ "{}\ milli."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00214}00214\ \ \ \ \ \mbox{\hyperlink{base_8cpp_ab458f83824d90685efa283d2989d120e}{printPath}}(nearestNeighborPath,\ \textcolor{stringliteral}{"{}A\ melhor\ rota\ é"{}},\ costNearestNeighbor);}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00216}00216\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{heuristic_8cpp_source_l00217}00217\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,254 @@
+\doxysection{local\+\_\+parallelization.\+cpp}
+\hypertarget{local__parallelization_8cpp_source}{}\label{local__parallelization_8cpp_source}\mbox{\hyperlink{local__parallelization_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <climits>}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <omp.h>}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{base_8h}{base.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00011}00011\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00012}00012\ \textcolor{keyword}{using\ namespace\ }std::chrono;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00025}\mbox{\hyperlink{local__parallelization_8cpp_a4fed75b1f8e950ee4c1290fa55be2311}{00025}}\ vector<int>\ \mbox{\hyperlink{local__parallelization_8cpp_a4fed75b1f8e950ee4c1290fa55be2311}{findBestPath}}(vector<vector<int>>\ possiblePaths,\ map<pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ \textcolor{keywordtype}{int}\ \&cost)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00026}00026\ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00027}00027\ \ \ \ \ vector<int>\ bestPath;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00028}00028\ \ \ \ \ \textcolor{keywordtype}{int}\ minCost\ =\ INT\_MAX;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00029}00029\ \ \ \ \ \textcolor{keywordtype}{int}\ numPossiblePaths\ =\ possiblePaths.size();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00031}00031\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ possiblePaths.size();\ i++)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00032}00032\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ pathCost\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ possiblePaths[i].size()\ -\/\ 1;\ j++)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00035}00035\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ from\ =\ possiblePaths[i][j];}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ to\ =\ possiblePaths[i][j\ +\ 1];}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ cost\ =\ distances.at(\{from,\ to\});}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ pathCost\ +=\ cost;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pathCost\ <\ minCost)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ minCost\ =\ pathCost;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ bestPath\ =\ possiblePaths[i];}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00046}00046\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00047}00047\ \ \ \ \ cost\ =\ minCost;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{keywordflow}{return}\ bestPath;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00049}00049\ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00062}\mbox{\hyperlink{local__parallelization_8cpp_a7cf3e3e730f1f264ddd819a2ade76169}{00062}}\ vector<int>\ \mbox{\hyperlink{local__parallelization_8cpp_a7cf3e3e730f1f264ddd819a2ade76169}{findBestPathParallel}}(vector<vector<int>>\ possiblePaths,\ map<pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ \textcolor{keywordtype}{int}\ \&cost)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00063}00063\ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00064}00064\ \ \ \ \ vector<int>\ bestPath;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00065}00065\ \ \ \ \ \textcolor{keywordtype}{int}\ minCost\ =\ INT\_MAX;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00067}00067\ \textcolor{preprocessor}{\#pragma\ omp\ parallel\ for}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00068}00068\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ possiblePaths.size();\ i++)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00069}00069\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ pathCost\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ possiblePaths[i].size()\ -\/\ 1;\ j++)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ from\ =\ possiblePaths[i][j];}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ to\ =\ possiblePaths[i][j\ +\ 1];}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ cost\ =\ distances.at(\{from,\ to\});}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ pathCost\ +=\ cost;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00077}00077\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pathCost\ <\ minCost)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ minCost\ =\ pathCost;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ bestPath\ =\ possiblePaths[i];}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00083}00083\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00084}00084\ \ \ \ \ cost\ =\ minCost;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{keywordflow}{return}\ bestPath;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00086}00086\ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00100}\mbox{\hyperlink{local__parallelization_8cpp_a3de78c131c03102f2d0273138cb3b9b3}{00100}}\ vector<int>\ \mbox{\hyperlink{local__parallelization_8cpp_a3de78c131c03102f2d0273138cb3b9b3}{nearestNeighborSearch}}(map<pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ map<int,\ int>\ \&nodes,\ \textcolor{keywordtype}{int}\ \&cost,\ \textcolor{keywordtype}{int}\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00101}00101\ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00102}00102\ \ \ \ \ vector<int>\ path;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00103}00103\ \ \ \ \ cost\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00104}00104\ \ \ \ \ \textcolor{keywordtype}{int}\ capacity\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00105}00105\ \ \ \ \ \textcolor{keywordtype}{int}\ current\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00106}00106\ \ \ \ \ path.push\_back(current);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00108}00108\ \ \ \ \ set<int>\ unvisitedNodes;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00109}00109\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&node\ :\ nodes)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00110}00110\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (node.first\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ unvisitedNodes.insert(node.first);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00115}00115\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00117}00117\ \ \ \ \ \textcolor{comment}{//\ Executar\ enquanto\ ainda\ houver\ nós\ não\ visitados}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ !unvisitedNodes.empty();\ ++i)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00119}00119\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ nearestNode\ =\ \mbox{\hyperlink{base_8cpp_a2b6427f7baa3ba683691af7b83fbd061}{findClosestNode}}(current,\ unvisitedNodes,\ nodes,\ distances);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nearestNode\ !=\ -\/1\ \&\&\ capacity\ +\ nodes.at(nearestNode)\ <=\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(nearestNode);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ nearestNode\});}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ +=\ nodes.at(nearestNode);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ current\ =\ nearestNode;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ unvisitedNodes.erase(nearestNode);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ 0\});}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ current\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00137}00137\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00139}00139\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00140}00140\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ 0\});}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00143}00143\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00145}00145\ \ \ \ \ \textcolor{keywordflow}{return}\ path;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00146}00146\ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00160}\mbox{\hyperlink{local__parallelization_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24}{00160}}\ vector<int>\ \mbox{\hyperlink{local__parallelization_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24}{nearestNeighborSearchParallel}}(map<pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ \&distances,\ map<int,\ int>\ \&nodes,\ \textcolor{keywordtype}{int}\ \&cost,\ \textcolor{keywordtype}{int}\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00161}00161\ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00162}00162\ \ \ \ \ vector<int>\ path;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00163}00163\ \ \ \ \ cost\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00164}00164\ \ \ \ \ \textcolor{keywordtype}{int}\ capacity\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00165}00165\ \ \ \ \ \textcolor{keywordtype}{int}\ current\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00166}00166\ \ \ \ \ path.push\_back(current);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00168}00168\ \ \ \ \ set<int>\ unvisitedNodes;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00169}00169\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&node\ :\ nodes)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00170}00170\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (node.first\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ unvisitedNodes.insert(node.first);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00175}00175\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00177}00177\ \textcolor{preprocessor}{\#pragma\ omp\ parallel}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00178}00178\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00179}00179\ \textcolor{preprocessor}{\#pragma\ omp\ single}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ !unvisitedNodes.empty();\ ++i)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ nearestNode\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00185}00185\ \textcolor{preprocessor}{\#pragma\ omp\ task\ shared(nearestNode)}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nearestNode\ =\ \mbox{\hyperlink{base_8cpp_a2b6427f7baa3ba683691af7b83fbd061}{findClosestNode}}(current,\ unvisitedNodes,\ nodes,\ distances);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00189}00189\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00190}00190\ \textcolor{preprocessor}{\#pragma\ omp\ taskwait}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nearestNode\ !=\ -\/1\ \&\&\ capacity\ +\ nodes.at(nearestNode)\ <=\ maxCapacity)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00193}00193\ \textcolor{preprocessor}{\#pragma\ omp\ critical}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(nearestNode);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ nearestNode\});}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ +=\ nodes.at(nearestNode);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\ =\ nearestNode;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unvisitedNodes.erase(nearestNode);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00204}00204\ \textcolor{preprocessor}{\#pragma\ omp\ critical}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ 0\});}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00216}00216\ \textcolor{preprocessor}{\#pragma\ omp\ critical}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cost\ +=\ distances.at(\{current,\ 0\});}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00223}00223\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00225}00225\ \ \ \ \ \textcolor{keywordflow}{return}\ path;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00226}00226\ \}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00237}\mbox{\hyperlink{local__parallelization_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{00237}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{local__parallelization_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00238}00238\ \{}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00239}00239\ \ \ \ \ \textcolor{keywordtype}{int}\ maxCapacity\ =\ 10;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00240}00240\ \ \ \ \ map<int,\ int>\ nodes;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00241}00241\ \ \ \ \ map<pair<int,\ int>,\ \textcolor{keywordtype}{int}>\ distances;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00242}00242\ \ \ \ \ \mbox{\hyperlink{base_8cpp_a2624bf9ab2b21423b2db2552184d5b28}{load\_graph}}(\textcolor{stringliteral}{"{}../grafo.txt"{}},\ nodes,\ distances);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00244}00244\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}-\/-\/-\/\ Times\ -\/-\/-\/"{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00246}00246\ \ \ \ \ \textcolor{keyword}{auto}\ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00247}00247\ \ \ \ \ vector<vector<int>>\ permutations\ =\ \mbox{\hyperlink{base_8cpp_a7cbb4c4226abd328bc58494db7cd0fb4}{generatePermutations}}(nodes);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00248}00248\ \ \ \ \ \textcolor{keyword}{auto}\ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00249}00249\ \ \ \ \ \textcolor{keyword}{auto}\ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00250}00250\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Permutations\ (S)\ "{}}\ <<\ duration.count()\ <<\ \textcolor{stringliteral}{"{}\ milli."{}}\ <<\ endl;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00251}00251\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00252}00252\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00253}00253\ \ \ \ \ vector<vector<int>>\ permutationsParallel\ =\ \mbox{\hyperlink{base_8cpp_ae74b6609b234c3d17058915b8027e4e4}{generatePermutationsParallelOptimized}}(nodes);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00254}00254\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00255}00255\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00256}00256\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Permutations\ (P)\ "{}}\ <<\ duration.count()\ <<\ \textcolor{stringliteral}{"{}\ milli."{}}\ <<\ endl;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00257}00257\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00258}00258\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00259}00259\ \ \ \ \ vector<vector<int>>\ possiblePaths\ =\ \mbox{\hyperlink{base_8cpp_a84b1c6dd6025339ba8efaef58aced818}{generatePossiblePaths}}(permutations,\ distances,\ nodes,\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00260}00260\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00261}00261\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00262}00262\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Paths\ (S)\ "{}}\ <<\ duration.count()\ <<\ \textcolor{stringliteral}{"{}\ milli."{}}\ <<\ endl;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00264}00264\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00265}00265\ \ \ \ \ vector<vector<int>>\ possiblePathsParallel\ =\ \mbox{\hyperlink{base_8cpp_a5296eb2e4a780a71e9c97b34356ac247}{generatePossiblePathsParallel}}(permutations,\ distances,\ nodes,\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00266}00266\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00267}00267\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00268}00268\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Paths\ (P)\ "{}}\ <<\ duration.count()\ <<\ \textcolor{stringliteral}{"{}\ milli."{}}\ <<\ endl;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00270}00270\ \ \ \ \ \textcolor{keywordtype}{int}\ costBestPath\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00271}00271\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00272}00272\ \ \ \ \ vector<int>\ bestPath\ =\ \mbox{\hyperlink{local__parallelization_8cpp_a4fed75b1f8e950ee4c1290fa55be2311}{findBestPath}}(possiblePaths,\ distances,\ costBestPath);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00273}00273\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00274}00274\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00275}00275\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Best\ Path\ (S)\ "{}}\ <<\ duration.count()\ <<\ \textcolor{stringliteral}{"{}\ milli."{}}\ <<\ endl;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00277}00277\ \ \ \ \ \textcolor{keywordtype}{int}\ costBestPathParallel\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00278}00278\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00279}00279\ \ \ \ \ vector<int>\ bestPathParalles\ =\ \mbox{\hyperlink{local__parallelization_8cpp_a7cf3e3e730f1f264ddd819a2ade76169}{findBestPathParallel}}(possiblePaths,\ distances,\ costBestPathParallel);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00280}00280\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00281}00281\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00282}00282\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Best\ Path\ (P)\ \ "{}}\ <<\ duration.count()\ <<\ \textcolor{stringliteral}{"{}\ milli."{}}\ <<\ endl;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00284}00284\ \ \ \ \ \textcolor{keywordtype}{int}\ costNearestNeighbor\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00285}00285\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00286}00286\ \ \ \ \ vector<int>\ nearestNeighborPath\ =\ \mbox{\hyperlink{local__parallelization_8cpp_a3de78c131c03102f2d0273138cb3b9b3}{nearestNeighborSearch}}(distances,\ nodes,\ costNearestNeighbor,\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00287}00287\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00288}00288\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00289}00289\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Nearest\ Neighbor\ (S)\ "{}}\ <<\ duration.count()\ <<\ \textcolor{stringliteral}{"{}\ milli."{}}\ <<\ endl;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00291}00291\ \ \ \ \ \textcolor{keywordtype}{int}\ costNearestNeighborParallel\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00292}00292\ \ \ \ \ start\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00293}00293\ \ \ \ \ vector<int>\ nearestNeighborPathParallel\ =\ \mbox{\hyperlink{local__parallelization_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24}{nearestNeighborSearchParallel}}(distances,\ nodes,\ costNearestNeighborParallel,\ maxCapacity);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00294}00294\ \ \ \ \ stop\ =\ high\_resolution\_clock::now();}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00295}00295\ \ \ \ \ duration\ =\ duration\_cast<milliseconds>(stop\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00296}00296\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Nearest\ Neighbor\ (P)\ "{}}\ <<\ duration.count()\ <<\ \textcolor{stringliteral}{"{}\ milli."{}}\ <<\ endl;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00298}00298\ \ \ \ \ \mbox{\hyperlink{base_8cpp_ab458f83824d90685efa283d2989d120e}{printPath}}(bestPath,\ \textcolor{stringliteral}{"{}Global\ (S)"{}},\ costBestPath);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00299}00299\ \ \ \ \ \mbox{\hyperlink{base_8cpp_ab458f83824d90685efa283d2989d120e}{printPath}}(bestPathParalles,\ \textcolor{stringliteral}{"{}Global\ (P)"{}},\ costBestPathParallel);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00300}00300\ \ \ \ \ \mbox{\hyperlink{base_8cpp_ab458f83824d90685efa283d2989d120e}{printPath}}(nearestNeighborPath,\ \textcolor{stringliteral}{"{}Nearest\ Neighbor\ (S)"{}},\ costNearestNeighbor);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00301}00301\ \ \ \ \ \mbox{\hyperlink{base_8cpp_ab458f83824d90685efa283d2989d120e}{printPath}}(nearestNeighborPathParallel,\ \textcolor{stringliteral}{"{}Nearest\ Neighbor\ (P)"{}},\ costNearestNeighborParallel);}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00302}00302\ }
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00303}00303\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{local__parallelization_8cpp_source_l00304}00304\ \}}
+
+\end{DoxyCode}

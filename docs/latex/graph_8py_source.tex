@@ -1,0 +1,82 @@
+\doxysection{graph.\+py}
+\hypertarget{graph_8py_source}{}\label{graph_8py_source}\index{python/graph.py@{python/graph.py}}
+\mbox{\hyperlink{graph_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00001}\mbox{\hyperlink{namespacegraph}{00001}}\ \textcolor{keyword}{import}\ matplotlib.pyplot\ \textcolor{keyword}{as}\ plt}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00003}00003\ \textcolor{comment}{\#\ \#\ Dados}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00004}00004\ \textcolor{comment}{\#\ num\_grafos\ =\ [5,\ 6,\ 7,\ 8,\ 9,\ 10,\ 11]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00005}00005\ \textcolor{comment}{\#\ best\_path\ =\ [0,\ 0,\ 4,\ 37,\ 384,\ 4235,\ 62351]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00006}00006\ \textcolor{comment}{\#\ best\_path\_omp\ =\ [0,\ 0,\ 3,\ 29,\ 309,\ 3547,\ 44155]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00007}00007\ \textcolor{comment}{\#\ best\_path\_mpi\ =\ [10,\ 10,\ 11,\ 11,\ 103,\ 1295,\ 13443]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00008}00008\ \textcolor{comment}{\#\ heuristic\_path\ =\ [0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 1]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00009}00009\ \textcolor{comment}{\#\ heuristic\_omp\ =\ [0,\ 0,\ 0,\ 0,\ 1,\ 80,\ 2]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00010}00010\ \textcolor{comment}{\#\ heuristic\_mpi\ =\ [0,\ 0,\ 0,\ 0,\ 0,\ 10,\ 3]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00012}00012\ \textcolor{comment}{\#\ \#\ Deletando\ primeiros\ 3\ elementos\ de\ cada\ lista}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00013}00013\ \textcolor{comment}{\#\ num\_grafos\ =\ num\_grafos[3:]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00014}00014\ \textcolor{comment}{\#\ best\_path\ =\ best\_path[3:]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00015}00015\ \textcolor{comment}{\#\ best\_path\_omp\ =\ best\_path\_omp[3:]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00016}00016\ \textcolor{comment}{\#\ best\_path\_mpi\ =\ best\_path\_mpi[3:]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00017}00017\ \textcolor{comment}{\#\ heuristic\_path\ =\ heuristic\_path[3:]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00018}00018\ \textcolor{comment}{\#\ heuristic\_omp\ =\ heuristic\_omp[3:]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00019}00019\ \textcolor{comment}{\#\ heuristic\_mpi\ =\ heuristic\_mpi[3:]}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00021}00021\ \textcolor{comment}{\#\ \#\ Gráfico\ sem\ escala\ logarítmica}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00022}00022\ \textcolor{comment}{\#\ plt.figure(figsize=(14,\ 7))}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00024}00024\ \textcolor{comment}{\#\ plt.subplot(1,\ 2,\ 1)}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00025}00025\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ best\_path,\ label="{}Best\ Path"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00026}00026\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ best\_path\_omp,\ label="{}Best\ Path\ OMP"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00027}00027\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ best\_path\_mpi,\ label="{}Best\ Path\ MPI"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00028}00028\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ heuristic\_path,\ label="{}Heuristic\ Path"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00029}00029\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ heuristic\_omp,\ label="{}Heuristic\ OMP"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00030}00030\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ heuristic\_mpi,\ label="{}Heuristic\ MPI"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00032}00032\ \textcolor{comment}{\#\ plt.xlabel("{}Número\ de\ Grafos"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00033}00033\ \textcolor{comment}{\#\ plt.ylabel("{}Tempo\ (ms)"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00034}00034\ \textcolor{comment}{\#\ plt.title("{}Vehicle\ Routing\ Problem\ -\/\ Linear\ Scale"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00035}00035\ \textcolor{comment}{\#\ plt.legend()}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00036}00036\ \textcolor{comment}{\#\ plt.grid(True)}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00038}00038\ \textcolor{comment}{\#\ \#\ Gráfico\ com\ escala\ logarítmica}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00039}00039\ \textcolor{comment}{\#\ plt.subplot(1,\ 2,\ 2)}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00040}00040\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ best\_path,\ label="{}Best\ Path"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00041}00041\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ best\_path\_omp,\ label="{}Best\ Path\ OMP"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00042}00042\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ best\_path\_mpi,\ label="{}Best\ Path\ MPI"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00043}00043\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ heuristic\_path,\ label="{}Heuristic\ Path"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00044}00044\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ heuristic\_omp,\ label="{}Heuristic\ OMP"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00045}00045\ \textcolor{comment}{\#\ plt.plot(num\_grafos,\ heuristic\_mpi,\ label="{}Heuristic\ MPI"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00047}00047\ \textcolor{comment}{\#\ plt.yscale("{}log"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00048}00048\ \textcolor{comment}{\#\ plt.xlabel("{}Número\ de\ Grafos"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00049}00049\ \textcolor{comment}{\#\ plt.ylabel("{}Tempo\ (ms)\ -\/\ Escala\ Log"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00050}00050\ \textcolor{comment}{\#\ plt.title("{}Vehicle\ Routing\ Problem\ -\/\ Logarithmic\ Scale"{})}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00051}00051\ \textcolor{comment}{\#\ plt.legend()}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00052}00052\ \textcolor{comment}{\#\ plt.grid(True)}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00054}00054\ \textcolor{comment}{\#\ plt.tight\_layout()}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00055}00055\ \textcolor{comment}{\#\ plt.show()}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00057}\mbox{\hyperlink{namespacegraph_a49700c8d5ebcb60389e5ad6c967b078a}{00057}}\ num\_grafos\ =\ [5,\ 6,\ 7,\ 8,\ 9,\ 10,\ 11]}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00058}\mbox{\hyperlink{namespacegraph_ab8778c0e865fcde6081b170f77e8dba3}{00058}}\ global\_cost\ =\ [526,\ 264,\ 604,\ 785,\ 943,\ 846,\ 896]}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00059}\mbox{\hyperlink{namespacegraph_ad0b76aa5c77b294d208f3317b874da5e}{00059}}\ heuristic\_cost\ =\ [526,\ 378,\ 640,\ 785,\ 993,\ 1012,\ 896]}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00061}00061\ \textcolor{comment}{\#\ Gráfico\ sem\ escala\ logarítmica}}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00063}\mbox{\hyperlink{namespacegraph_a1e67972edc04459c571ba07d1dcb27a2}{00063}}\ plt.figure(figsize=(14,\ 7))}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00065}00065\ plt.subplot(1,\ 2,\ 1)}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00066}\mbox{\hyperlink{namespacegraph_a30cc134d635e675df10c32c5ce1d2d4b}{00066}}\ plt.plot(num\_grafos,\ global\_cost,\ label=\textcolor{stringliteral}{"{}Global\ Cost"{}})}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00067}00067\ plt.plot(num\_grafos,\ heuristic\_cost,\ label=\textcolor{stringliteral}{"{}Heuristic\ Cost"{}})}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00069}00069\ plt.xlabel(\textcolor{stringliteral}{"{}Número\ de\ Grafos"{}})}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00070}00070\ plt.ylabel(\textcolor{stringliteral}{"{}Custo"{}})}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00071}00071\ plt.title(\textcolor{stringliteral}{"{}Vehicle\ Routing\ Problem\ -\/\ Linear\ Scale"{}})}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00072}00072\ plt.legend()}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00073}00073\ plt.grid(\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00075}00075\ plt.tight\_layout()}
+\DoxyCodeLine{\Hypertarget{graph_8py_source_l00076}00076\ plt.show()}
+
+\end{DoxyCode}

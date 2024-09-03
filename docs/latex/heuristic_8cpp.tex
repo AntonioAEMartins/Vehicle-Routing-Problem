@@ -1,0 +1,116 @@
+\doxysection{heuristic.\+cpp File Reference}
+\hypertarget{heuristic_8cpp}{}\label{heuristic_8cpp}\index{heuristic.cpp@{heuristic.cpp}}
+
+
+Implementation of Nearest Neighbor Search for the Traveling Salesman Problem (TSP) with optional parallelization.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$climits$>$}\newline
+{\ttfamily \#include $<$omp.\+h$>$}\newline
+{\ttfamily \#include "{}base.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ int $>$ \mbox{\hyperlink{heuristic_8cpp_a3de78c131c03102f2d0273138cb3b9b3}{nearest\+Neighbor\+Search}} (map$<$ pair$<$ int, int $>$, int $>$ \&distances, map$<$ int, int $>$ \&nodes, int \&cost, int max\+Capacity)
+\begin{DoxyCompactList}\small\item\em Performs a Nearest Neighbor search for the Traveling Salesman Problem (TSP). \end{DoxyCompactList}\item 
+vector$<$ int $>$ \mbox{\hyperlink{heuristic_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24}{nearest\+Neighbor\+Search\+Parallel}} (map$<$ pair$<$ int, int $>$, int $>$ \&distances, map$<$ int, int $>$ \&nodes, int \&cost, int max\+Capacity)
+\begin{DoxyCompactList}\small\item\em Performs a parallelized Nearest Neighbor search for the Traveling Salesman Problem (TSP). \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{heuristic_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Main function that executes the Nearest Neighbor search and its parallel version, and measures execution times. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of Nearest Neighbor Search for the Traveling Salesman Problem (TSP) with optional parallelization. 
+
+
+
+Definition in file \mbox{\hyperlink{heuristic_8cpp_source}{heuristic.\+cpp}}.
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{heuristic_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{heuristic.cpp@{heuristic.cpp}!main@{main}}
+\index{main@{main}!heuristic.cpp@{heuristic.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{heuristic_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Main function that executes the Nearest Neighbor search and its parallel version, and measures execution times. 
+
+This function loads graph data from a file, generates permutations and possible paths, and performs both serial and parallel Nearest Neighbor searches. It also measures and prints execution times for various stages of the algorithm.
+
+\begin{DoxyReturn}{Returns}
+An integer indicating the exit status of the program. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{heuristic_8cpp_source_l00167}{167}} of file \mbox{\hyperlink{heuristic_8cpp_source}{heuristic.\+cpp}}.
+
+\Hypertarget{heuristic_8cpp_a3de78c131c03102f2d0273138cb3b9b3}\index{heuristic.cpp@{heuristic.cpp}!nearestNeighborSearch@{nearestNeighborSearch}}
+\index{nearestNeighborSearch@{nearestNeighborSearch}!heuristic.cpp@{heuristic.cpp}}
+\doxysubsubsection{\texorpdfstring{nearestNeighborSearch()}{nearestNeighborSearch()}}
+{\footnotesize\ttfamily \label{heuristic_8cpp_a3de78c131c03102f2d0273138cb3b9b3} 
+vector$<$ int $>$ nearest\+Neighbor\+Search (\begin{DoxyParamCaption}\item[{map$<$ pair$<$ int, int $>$, int $>$ \&}]{distances}{, }\item[{map$<$ int, int $>$ \&}]{nodes}{, }\item[{int \&}]{cost}{, }\item[{int}]{max\+Capacity}{}\end{DoxyParamCaption})}
+
+
+
+Performs a Nearest Neighbor search for the Traveling Salesman Problem (TSP). 
+
+This function constructs a path by visiting the nearest unvisited node and returns to the starting node when necessary, considering the capacity constraints of the nodes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em distances} & A map where keys are pairs of node indices representing edges and values are the corresponding distances. \\
+\hline
+{\em nodes} & A map where keys are node indices and values are the capacities of the nodes. \\
+\hline
+{\em cost} & An integer reference that will be set to the total cost of the path found. \\
+\hline
+{\em max\+Capacity} & The maximum capacity constraint for the nodes in the path. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of integers representing the path starting and ending at node 0. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{heuristic_8cpp_source_l00031}{31}} of file \mbox{\hyperlink{heuristic_8cpp_source}{heuristic.\+cpp}}.
+
+\Hypertarget{heuristic_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24}\index{heuristic.cpp@{heuristic.cpp}!nearestNeighborSearchParallel@{nearestNeighborSearchParallel}}
+\index{nearestNeighborSearchParallel@{nearestNeighborSearchParallel}!heuristic.cpp@{heuristic.cpp}}
+\doxysubsubsection{\texorpdfstring{nearestNeighborSearchParallel()}{nearestNeighborSearchParallel()}}
+{\footnotesize\ttfamily \label{heuristic_8cpp_a355c1bcff724b0a4f4e6797d21c1bb24} 
+vector$<$ int $>$ nearest\+Neighbor\+Search\+Parallel (\begin{DoxyParamCaption}\item[{map$<$ pair$<$ int, int $>$, int $>$ \&}]{distances}{, }\item[{map$<$ int, int $>$ \&}]{nodes}{, }\item[{int \&}]{cost}{, }\item[{int}]{max\+Capacity}{}\end{DoxyParamCaption})}
+
+
+
+Performs a parallelized Nearest Neighbor search for the Traveling Salesman Problem (TSP). 
+
+This function parallelizes the Nearest Neighbor search using Open\+MP to potentially speed up the computation. The parallelization focuses on finding the nearest node in parallel.
+
+
+\begin{DoxyParams}{Parameters}
+{\em distances} & A map where keys are pairs of node indices representing edges and values are the corresponding distances. \\
+\hline
+{\em nodes} & A map where keys are node indices and values are the capacities of the nodes. \\
+\hline
+{\em cost} & An integer reference that will be set to the total cost of the path found. \\
+\hline
+{\em max\+Capacity} & The maximum capacity constraint for the nodes in the path. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of integers representing the path starting and ending at node 0. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{heuristic_8cpp_source_l00091}{91}} of file \mbox{\hyperlink{heuristic_8cpp_source}{heuristic.\+cpp}}.
+
