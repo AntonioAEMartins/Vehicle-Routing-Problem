@@ -1,0 +1,32 @@
+name: Deploy Doxygen to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # The branch that triggers the workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Doxygen
+      run: sudo apt-get install doxygen graphviz
+
+    - name: Generate Doxygen documentation
+      run: doxygen Doxyfile  # Make sure Doxyfile is in the root or adjust the path
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs/html  # Path to your generated docs folder
+        destination_dir: ""  # Publish everything directly to the root of gh-pages
