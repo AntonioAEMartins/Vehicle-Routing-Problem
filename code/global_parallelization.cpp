@@ -13,11 +13,10 @@
 using namespace std;
 using namespace std::chrono;
 
-vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
+vector<int> findBestPath(const vector<vector<int>> &possiblePaths, const map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
     int minCost = INT_MAX;
-    int numPossiblePaths = possiblePaths.size();
 
     for (int i = 0; i < possiblePaths.size(); i++)
     {
@@ -26,8 +25,8 @@ vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, 
         {
             int from = possiblePaths[i][j];
             int to = possiblePaths[i][j + 1];
-            int cost = distances.at({from, to});
-            pathCost += cost;
+            int cost_ = distances.at({from, to});
+            pathCost += cost_;
         }
         if (pathCost < minCost)
         {
@@ -39,7 +38,7 @@ vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, 
     return bestPath;
 }
 
-vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
+vector<int> findBestPathParallel(const vector<vector<int>> &possiblePaths, const map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
     int minCost = INT_MAX;
@@ -52,8 +51,8 @@ vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int
         {
             int from = possiblePaths[i][j];
             int to = possiblePaths[i][j + 1];
-            int cost = distances.at({from, to});
-            pathCost += cost;
+            int cost_ = distances.at({from, to});
+            pathCost += cost_;
         }
         if (pathCost < minCost)
         {
@@ -65,7 +64,7 @@ vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int
     return bestPath;
 }
 
-vector<int> findBestPathParallelMPI(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost, int rank, int size)
+vector<int> findBestPathParallelMPI(const vector<vector<int>> &possiblePaths, const map<pair<int, int>, int> &distances, int &cost, int rank, int size)
 {
     vector<int> bestPath;
     int minCost = INT_MAX;
@@ -91,8 +90,8 @@ vector<int> findBestPathParallelMPI(vector<vector<int>> possiblePaths, map<pair<
             {
                 int from = possiblePaths[i][j];
                 int to = possiblePaths[i][j + 1];
-                int cost = distances.at({from, to});
-                pathCost += cost;
+                int cost_ = distances.at({from, to});
+                pathCost += cost_;
             }
 
             if (pathCost < threadMinCost)
@@ -130,11 +129,10 @@ vector<int> findBestPathParallelMPI(vector<vector<int>> possiblePaths, map<pair<
     return bestPath;
 }
 
-vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity)
+vector<int> nearestNeighborSearch(const map<pair<int, int>, int> &distances, const map<int, int> &nodes, int &cost, int maxCapacity)
 {
     vector<int> path;
     cost = 0;
-    int capacity = 0;
     int current = 0;
     path.push_back(current);
 
@@ -150,13 +148,13 @@ vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, 
     // Executar enquanto ainda houver nós não visitados
     for (size_t i = 0; !unvisitedNodes.empty(); ++i)
     {
+        int capacity = 0;
         int nearestNode = findClosestNode(current, unvisitedNodes, nodes, distances);
 
         if (nearestNode != -1 && capacity + nodes.at(nearestNode) <= maxCapacity)
         {
             path.push_back(nearestNode);
             cost += distances.at({current, nearestNode});
-            capacity += nodes.at(nearestNode);
             current = nearestNode;
             unvisitedNodes.erase(nearestNode);
         }
@@ -165,7 +163,6 @@ vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, 
             path.push_back(0);
             cost += distances.at({current, 0});
             current = 0;
-            capacity = 0;
         }
     }
 
@@ -178,11 +175,10 @@ vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, 
     return path;
 }
 
-vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity)
+vector<int> nearestNeighborSearchParallel(const map<pair<int, int>, int> &distances, const map<int, int> &nodes, int &cost, int maxCapacity)
 {
     vector<int> path;
     cost = 0;
-    int capacity = 0;
     int current = 0;
     path.push_back(current);
 
@@ -201,6 +197,7 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
         {
             for (size_t i = 0; !unvisitedNodes.empty(); ++i)
             {
+                int capacity = 0;
                 int nearestNode = -1;
 
 #pragma omp task shared(nearestNode)
@@ -215,7 +212,6 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
                     {
                         path.push_back(nearestNode);
                         cost += distances.at({current, nearestNode});
-                        capacity += nodes.at(nearestNode);
                         current = nearestNode;
                         unvisitedNodes.erase(nearestNode);
                     }
@@ -227,7 +223,6 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
                         path.push_back(0);
                         cost += distances.at({current, 0});
                         current = 0;
-                        capacity = 0;
                     }
                 }
             }
@@ -246,11 +241,10 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
     return path;
 }
 
-vector<int> nearestNeighborSearchParallelMPI(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity, int rank, int size)
+vector<int> nearestNeighborSearchParallelMPI(const map<pair<int, int>, int> &distances, const map<int, int> &nodes, int &cost, int maxCapacity, int rank, int size)
 {
     vector<int> path;
     cost = 0;
-    int capacity = 0;
     int current = 0;
     path.push_back(current);
 
@@ -269,6 +263,7 @@ vector<int> nearestNeighborSearchParallelMPI(map<pair<int, int>, int> &distances
         {
             for (size_t i = 0; !unvisitedNodes.empty(); ++i)
             {
+                int capacity = 0;
                 int nearestNode = -1;
 
 #pragma omp task shared(nearestNode)
@@ -283,7 +278,6 @@ vector<int> nearestNeighborSearchParallelMPI(map<pair<int, int>, int> &distances
                     {
                         path.push_back(nearestNode);
                         cost += distances.at({current, nearestNode});
-                        capacity += nodes.at(nearestNode);
                         current = nearestNode;
                         unvisitedNodes.erase(nearestNode);
                     }
@@ -295,7 +289,6 @@ vector<int> nearestNeighborSearchParallelMPI(map<pair<int, int>, int> &distances
                         path.push_back(0);
                         cost += distances.at({current, 0});
                         current = 0;
-                        capacity = 0;
                     }
                 }
             }
@@ -395,10 +388,10 @@ int main(int argc, char **argv)
     vector<int> nearestNeighborPathParallelMPI = nearestNeighborSearchParallelMPI(distances, nodes, costNearestNeighborParallelMPI, maxCapacity, rank, size);
     stop = high_resolution_clock::now();
     duration = duration_cast<milliseconds>(stop - start);
-    if (rank == 0) cout << "Nearest Neighbor (MPI) " << duration.count() << " milli." << endl;
 
     if (rank == 0)
     {
+        cout << "Nearest Neighbor (MPI) " << duration.count() << " milli." << endl;
         printPath(bestPath, "Global (S)", costBestPath);
         printPath(bestPathParallel, "Global (P)", costBestPathParallel);
         printPath(bestPathParallelMPI, "Global (MPI)", costBestPathParallelMPI);

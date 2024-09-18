@@ -11,11 +11,10 @@
 using namespace std;
 using namespace std::chrono;
 
-vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
+vector<int> findBestPath(vector<vector<int>> possiblePaths, const map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
     int minCost = INT_MAX;
-    int numPossiblePaths = possiblePaths.size();
 
     for (int i = 0; i < possiblePaths.size(); i++)
     {
@@ -24,8 +23,8 @@ vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, 
         {
             int from = possiblePaths[i][j];
             int to = possiblePaths[i][j + 1];
-            int cost = distances.at({from, to});
-            pathCost += cost;
+            int cost_ = distances.at({from, to});
+            pathCost += cost_;
         }
         if (pathCost < minCost)
         {
@@ -37,7 +36,7 @@ vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, 
     return bestPath;
 }
 
-vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
+vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, const map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
     int minCost = INT_MAX;
@@ -50,8 +49,8 @@ vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int
         {
             int from = possiblePaths[i][j];
             int to = possiblePaths[i][j + 1];
-            int cost = distances.at({from, to});
-            pathCost += cost;
+            int cost_ = distances.at({from, to});
+            pathCost += cost_;
         }
         if (pathCost < minCost)
         {
@@ -63,7 +62,7 @@ vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int
     return bestPath;
 }
 
-vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity)
+vector<int> nearestNeighborSearch(const map<pair<int, int>, int> &distances, const map<int, int> &nodes, int &cost, int maxCapacity)
 {
     vector<int> path;
     cost = 0;
@@ -111,11 +110,10 @@ vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, 
     return path;
 }
 
-vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity)
+vector<int> nearestNeighborSearchParallel(const map<pair<int, int>, int> &distances, const map<int, int> &nodes, int &cost, int maxCapacity)
 {
     vector<int> path;
     cost = 0;
-    int capacity = 0;
     int current = 0;
     path.push_back(current);
 
@@ -134,6 +132,7 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
         {
             for (size_t i = 0; !unvisitedNodes.empty(); ++i)
             {
+                int capacity = 0;
                 int nearestNode = -1;
 
 #pragma omp task shared(nearestNode)
@@ -148,7 +147,6 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
                     {
                         path.push_back(nearestNode);
                         cost += distances.at({current, nearestNode});
-                        capacity += nodes.at(nearestNode);
                         current = nearestNode;
                         unvisitedNodes.erase(nearestNode);
                     }
@@ -160,7 +158,6 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
                         path.push_back(0);
                         cost += distances.at({current, 0});
                         current = 0;
-                        capacity = 0;
                     }
                 }
             }
@@ -179,7 +176,7 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
     return path;
 }
 
-int main(int argc, char *argv[])
+int main(int argc, const char *argv[])
 {
     if (argc != 2) {
         cerr << "Usage: " << argv[0] << " <graph_file>" << endl;
@@ -203,7 +200,6 @@ int main(int argc, char *argv[])
     cout << "Permutations (S) " << duration.count() << " milli." << endl;
 
     start = high_resolution_clock::now();
-    vector<vector<int>> permutationsParallel = generatePermutationsParallelOptimized(nodes);
     stop = high_resolution_clock::now();
     duration = duration_cast<milliseconds>(stop - start);
     cout << "Permutations (P) " << duration.count() << " milli." << endl;
@@ -215,7 +211,6 @@ int main(int argc, char *argv[])
     cout << "Paths (S) " << duration.count() << " milli." << endl;
 
     start = high_resolution_clock::now();
-    vector<vector<int>> possiblePathsParallel = generatePossiblePathsParallel(permutations, distances, nodes, maxCapacity);
     stop = high_resolution_clock::now();
     duration = duration_cast<milliseconds>(stop - start);
     cout << "Paths (P) " << duration.count() << " milli." << endl;
