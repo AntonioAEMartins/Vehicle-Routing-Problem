@@ -11,7 +11,7 @@
 using namespace std;
 using namespace std::chrono;
 
-vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity)
+vector<int> nearestNeighborSearch(const map<pair<int, int>, int> &distances, const map<int, int> &nodes, int &cost, int maxCapacity)
 {
     vector<int> path;
     cost = 0;
@@ -59,11 +59,10 @@ vector<int> nearestNeighborSearch(map<pair<int, int>, int> &distances, map<int, 
     return path;
 }
 
-vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, map<int, int> &nodes, int &cost, int maxCapacity)
+vector<int> nearestNeighborSearchParallel(const map<pair<int, int>, int> &distances, const map<int, int> &nodes, int &cost, int maxCapacity)
 {
     vector<int> path;
     cost = 0;
-    int capacity = 0;
     int current = 0;
     path.push_back(current);
 
@@ -82,6 +81,7 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
         {
             for (size_t i = 0; !unvisitedNodes.empty(); ++i)
             {
+                int capacity = 0;
                 int nearestNode = -1;
 
 #pragma omp task shared(nearestNode)
@@ -96,7 +96,6 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
                     {
                         path.push_back(nearestNode);
                         cost += distances.at({current, nearestNode});
-                        capacity += nodes.at(nearestNode);
                         current = nearestNode;
                         unvisitedNodes.erase(nearestNode);
                     }
@@ -108,7 +107,6 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
                         path.push_back(0);
                         cost += distances.at({current, 0});
                         current = 0;
-                        capacity = 0;
                     }
                 }
             }
@@ -137,42 +135,15 @@ int main()
     // cout << "--- Times ---" << endl;
 
     auto start = high_resolution_clock::now();
-    vector<vector<int>> permutations = generatePermutations(nodes);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
     // cout << "Permutations (S) " << duration.count() << " milli." << endl;
-
-    start = high_resolution_clock::now();
-    vector<vector<int>> permutationsParallel = generatePermutationsParallelOptimized(nodes);
-    stop = high_resolution_clock::now();
-    duration = duration_cast<milliseconds>(stop - start);
-    // cout << "Permutations (P) " << duration.count() << " milli." << endl;
-
-    start = high_resolution_clock::now();
-    vector<vector<int>> possiblePaths = generatePossiblePaths(permutations, distances, nodes, maxCapacity);
-    stop = high_resolution_clock::now();
-    duration = duration_cast<milliseconds>(stop - start);
-    // cout << "Paths (S) " << duration.count() << " milli." << endl;
-
-    start = high_resolution_clock::now();
-    vector<vector<int>> possiblePathsParallel = generatePossiblePathsParallel(permutations, distances, nodes, maxCapacity);
-    stop = high_resolution_clock::now();
-    duration = duration_cast<milliseconds>(stop - start);
-    // cout << "Paths (P) " << duration.count() << " milli." << endl;
 
     int costNearestNeighbor = 0;
     start = high_resolution_clock::now();
     vector<int> nearestNeighborPath = nearestNeighborSearch(distances, nodes, costNearestNeighbor, maxCapacity);
     stop = high_resolution_clock::now();
-    duration = duration_cast<milliseconds>(stop - start);
     // cout << "Nearest Neighbor (S) " << duration.count() << " milli." << endl;
-
-    int costNearestNeighborParallel = 0;
-    start = high_resolution_clock::now();
-    vector<int> nearestNeighborPathParallel = nearestNeighborSearchParallel(distances, nodes, costNearestNeighborParallel, maxCapacity);
-    stop = high_resolution_clock::now();
-    duration = duration_cast<milliseconds>(stop - start);
-    // cout << "Nearest Neighbor (P) " << duration.count() << " milli." << endl;
 
     printPath(nearestNeighborPath, "A melhor rota é", costNearestNeighbor);
 

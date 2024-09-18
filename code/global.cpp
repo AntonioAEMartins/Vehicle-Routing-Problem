@@ -11,11 +11,10 @@
 using namespace std;
 using namespace std::chrono;
 
-vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
+vector<int> findBestPath(vector<vector<int>> possiblePaths, const map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
     int minCost = INT_MAX;
-    int numPossiblePaths = possiblePaths.size();
 
     for (int i = 0; i < possiblePaths.size(); i++)
     {
@@ -24,8 +23,8 @@ vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, 
         {
             int from = possiblePaths[i][j];
             int to = possiblePaths[i][j + 1];
-            int cost = distances.at({from, to});
-            pathCost += cost;
+            int cost_ = distances.at({from, to});
+            pathCost += cost_;
         }
         if (pathCost < minCost)
         {
@@ -37,7 +36,7 @@ vector<int> findBestPath(vector<vector<int>> possiblePaths, map<pair<int, int>, 
     return bestPath;
 }
 
-vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int, int>, int> &distances, int &cost)
+vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, const map<pair<int, int>, int> &distances, int &cost)
 {
     vector<int> bestPath;
     int minCost = INT_MAX;
@@ -50,8 +49,8 @@ vector<int> findBestPathParallel(vector<vector<int>> possiblePaths, map<pair<int
         {
             int from = possiblePaths[i][j];
             int to = possiblePaths[i][j + 1];
-            int cost = distances.at({from, to});
-            pathCost += cost;
+            int cost_ = distances.at({from, to});
+            pathCost += cost_;
         }
         if (pathCost < minCost)
         {
@@ -70,45 +69,17 @@ int main()
     map<pair<int, int>, int> distances;
     load_graph("../grafo.txt", nodes, distances);
 
-    // cout << "--- Times ---" << endl;
-
     auto start = high_resolution_clock::now();
     vector<vector<int>> permutations = generatePermutations(nodes);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
-    // cout << "Permutations (S) " << duration.count() << " milli." << endl;
 
-    start = high_resolution_clock::now();
-    vector<vector<int>> permutationsParallel = generatePermutationsParallelOptimized(nodes);
-    stop = high_resolution_clock::now();
-    duration = duration_cast<milliseconds>(stop - start);
-    // cout << "Permutations (P) " << duration.count() << " milli." << endl;
-
-    start = high_resolution_clock::now();
     vector<vector<int>> possiblePaths = generatePossiblePaths(permutations, distances, nodes, maxCapacity);
-    stop = high_resolution_clock::now();
-    duration = duration_cast<milliseconds>(stop - start);
-    // cout << "Paths (S) " << duration.count() << " milli." << endl;
-
-    start = high_resolution_clock::now();
-    vector<vector<int>> possiblePathsParallel = generatePossiblePathsParallel(permutations, distances, nodes, maxCapacity);
-    stop = high_resolution_clock::now();
-    duration = duration_cast<milliseconds>(stop - start);
-    // cout << "Paths (P) " << duration.count() << " milli." << endl;
 
     int costBestPath = 0;
-    start = high_resolution_clock::now();
     vector<int> bestPath = findBestPath(possiblePaths, distances, costBestPath);
-    stop = high_resolution_clock::now();
-    duration = duration_cast<milliseconds>(stop - start);
-    // cout << "Best Path (S) " << duration.count() << " milli." << endl;
 
-    int costBestPathParallel = 0;
     start = high_resolution_clock::now();
-    vector<int> bestPathParalles = findBestPathParallel(possiblePaths, distances, costBestPathParallel);
-    stop = high_resolution_clock::now();
-    duration = duration_cast<milliseconds>(stop - start);
-    // cout << "Best Path (P)  " << duration.count() << " milli." << endl;
 
     printPath(bestPath, "A melhor rota é", costBestPath);
     return 0;

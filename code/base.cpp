@@ -45,10 +45,7 @@ std::vector<std::vector<int>> generatePermutations(const std::map<int, int> &loc
     std::vector<std::vector<int>> permutations;
     std::vector<int> indexes;
 
-    for (const auto &pair : locations)
-    {
-        indexes.push_back(pair.first);
-    }
+    std::transform(locations.begin(), locations.end(), std::back_inserter(indexes), [](const auto &pair) { return pair.first; });
 
     int n = indexes.size();
     int num_permutations = 1;
@@ -71,10 +68,7 @@ std::vector<std::vector<int>> generatePermutationsParallel(const std::map<int, i
     std::vector<std::vector<int>> permutations;
     std::vector<int> indexes;
 
-    for (const auto &pair : locations)
-    {
-        indexes.push_back(pair.first);
-    }
+    std::transform(locations.begin(), locations.end(), std::back_inserter(indexes), [](const auto &pair) { return pair.first; });
 
     int n = indexes.size();
     int num_permutations = 1;
@@ -104,10 +98,7 @@ std::vector<std::vector<int>> generatePermutationsParallelOptimized(const std::m
     std::vector<std::vector<int>> permutations;
     std::vector<int> indexes;
 
-    for (const auto &pair : locations)
-    {
-        indexes.push_back(pair.first);
-    }
+    std::transform(locations.begin(), locations.end(), std::back_inserter(indexes), [](const auto &pair) { return pair.first; });
 
     std::sort(indexes.begin(), indexes.end());
 
@@ -295,9 +286,9 @@ int findClosestNode(int node, const std::set<int> &unvisitedNodes, const std::ma
             auto distIt = distances.find({node, candidate});
             if (distIt != distances.end())
             {
-                int distance = distIt->second;
 #pragma omp critical
                 {
+                    int distance = distIt->second;
                     if (distance < minDistance)
                     {
                         minDistance = distance;
