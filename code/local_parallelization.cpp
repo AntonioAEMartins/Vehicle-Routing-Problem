@@ -179,12 +179,20 @@ vector<int> nearestNeighborSearchParallel(map<pair<int, int>, int> &distances, m
     return path;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+    if (argc != 2) {
+        cerr << "Usage: " << argv[0] << " <graph_file>" << endl;
+        return 1;
+    }
+
+    string filePath = argv[1];
     int maxCapacity = 10;
     map<int, int> nodes;
     map<pair<int, int>, int> distances;
-    load_graph("../grafo.txt", nodes, distances);
+
+    // Load the graph from the provided file path
+    load_graph(filePath, nodes, distances);
 
     // cout << "--- Times ---" << endl;
 
