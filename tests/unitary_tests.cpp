@@ -3,6 +3,7 @@
 #include <fstream>
 #include <map>
 #include <string>
+#include <cstdlib>
 
 // Helper function to create a temporary graph file for testing
 void create_test_graph_file(const std::string &filename) {
